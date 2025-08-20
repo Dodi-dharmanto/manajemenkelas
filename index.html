@@ -137,14 +137,17 @@
 
     <!-- ===== MAIN APPLICATION DASHBOARD ===== -->
     <div id="app" class="hidden">
-        <div class="flex h-screen bg-[var(--bg-default)]">
+        <div class="relative min-h-screen lg:flex">
+            <!-- Mobile Sidebar Overlay -->
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-20 lg:hidden hidden"></div>
+
             <!-- Sidebar -->
-            <aside class="w-64 bg-[var(--bg-card)] border-r border-[var(--border-color)] flex flex-col">
-                <div class="p-4 border-b border-[var(--border-color)] flex items-center space-x-3 h-16">
+            <aside id="sidebar" class="fixed inset-y-0 left-0 bg-[var(--bg-card)] w-64 border-r border-[var(--border-color)] flex flex-col transform -translate-x-full transition-transform duration-300 ease-in-out z-30 lg:translate-x-0 lg:static">
+                <div class="p-4 border-b border-[var(--border-color)] flex items-center space-x-3 h-16 flex-shrink-0">
                     <img id="app-logo" src="https://placehold.co/40x40/3b82f6/white?text=L" alt="Logo" class="w-9 h-9 rounded-full object-cover">
                     <span class="text-lg font-semibold text-[var(--text-heading)]">Dashboard Admin</span>
                 </div>
-                <nav class="flex-1 px-4 py-4 space-y-2">
+                <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
                     <a href="#" data-view="siswa" class="nav-link flex items-center px-3 py-2.5 text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-muted)] transition-colors duration-200">
                         <i data-lucide="users" class="w-5 h-5 mr-3"></i> Data Siswa
                     </a>
@@ -161,7 +164,7 @@
                         <i data-lucide="settings" class="w-5 h-5 mr-3"></i> Pengaturan
                     </a>
                 </nav>
-                <div class="p-4 border-t border-[var(--border-color)] space-y-2">
+                <div class="p-4 border-t border-[var(--border-color)] space-y-2 flex-shrink-0">
                     <button id="theme-toggle" class="w-full flex items-center justify-center px-4 py-2 text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-muted)] transition-colors duration-200">
                         <i data-lucide="sun" class="w-5 h-5 mr-3" id="theme-icon-sun"></i>
                         <i data-lucide="moon" class="w-5 h-5 mr-3 hidden" id="theme-icon-moon"></i>
@@ -174,256 +177,267 @@
             </aside>
 
             <!-- Main Content -->
-            <main class="flex-1 p-8 overflow-y-auto">
-                
-                <!-- View: Data Siswa -->
-                <div id="view-siswa" class="view-section">
-                    <h1 class="text-3xl font-bold text-[var(--text-heading)] mb-6">Dashboard Siswa</h1>
-                    <!-- Rekap Kehadiran Section -->
-                    <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
-                        <div class="flex flex-col sm:flex-row justify-between items-start mb-4">
-                            <div>
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)]">Rekapitulasi Kehadiran</h2>
-                                <p id="rekap-tanggal-display" class="text-sm text-[var(--text-secondary)]">Memuat tanggal...</p>
-                            </div>
-                            <div class="flex flex-wrap items-center gap-4 mt-4 sm:mt-0">
-                                <select id="rekap-kelas-filter" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                <div class="flex items-center gap-2" id="rekap-periode-filter">
-                                    <button data-periode="harian" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-200 dark:bg-slate-600">Harian</button>
-                                    <button data-periode="mingguan" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-100 dark:bg-slate-700">Mingguan</button>
-                                    <button data-periode="bulanan" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-100 dark:bg-slate-700">Bulanan</button>
-                                </div>
-                                <div id="periode-picker-container" class="relative">
-                                    <input type="date" id="rekap-harian-picker" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    <p id="rekap-mingguan-display" class="hidden px-3 py-2 text-sm text-[var(--text-secondary)] bg-[var(--bg-muted)] rounded-lg"></p>
-                                    <input type="month" id="rekap-bulanan-picker" class="hidden px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center mt-6">
-                            <div class="md:col-span-1 h-64 flex justify-center items-center">
-                                <canvas id="rekap-chart"></canvas>
-                            </div>
-                            <div id="rekap-stats-container" class="md:col-span-2 grid grid-cols-2 gap-4"></div>
-                        </div>
-                    </div>
+            <div class="flex-1 flex flex-col">
+                <!-- Mobile Header -->
+                <header class="lg:hidden sticky top-0 bg-[var(--bg-card)]/80 backdrop-blur-sm border-b border-[var(--border-color)] p-4 flex items-center justify-between z-10">
+                    <button id="menu-button" class="p-2">
+                        <i data-lucide="menu" class="w-6 h-6 text-[var(--text-primary)]"></i>
+                    </button>
+                    <span class="text-lg font-semibold text-[var(--text-heading)]">Dashboard</span>
+                    <div class="w-8"></div>
+                </header>
+
+                <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
                     
-                    <!-- Ringkasan Kelas Section -->
-                    <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                        <div class="flex flex-wrap items-center justify-between mb-4 gap-4">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)]">Ringkasan per Kelas</h2>
-                            <label for="siswa-file-input" class="cursor-pointer bg-green-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-600 flex items-center transition-colors">
-                                <i data-lucide="upload" class="w-4 h-4 mr-2"></i> Import Data Siswa
-                            </label>
-                            <input type="file" id="siswa-file-input" class="hidden" accept=".xlsx, .xls">
-                        </div>
-                        <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-                            <table class="min-w-full bg-[var(--bg-card)]">
-                                <thead class="bg-[var(--bg-muted)]">
-                                    <tr>
-                                        <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)] w-16">No</th>
-                                        <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)]">Kelas</th>
-                                        <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)]">Jumlah Siswa</th>
-                                        <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)] w-24">Detail</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="kelas-summary-body" class="divide-y divide-[var(--border-color)]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- View: Input Kehadiran -->
-                <div id="view-input-kehadiran" class="view-section">
-                    <h1 class="text-3xl font-bold text-[var(--text-heading)] mb-6">Input Kehadiran Harian</h1>
-                    <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                        <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
-                            <input type="date" id="kehadiran-tanggal" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                            <div class="flex items-center space-x-3">
-                                <select id="kehadiran-kelas-filter" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                <input type="text" id="kehadiran-nama-filter" placeholder="Cari Nama Siswa..." class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                            </div>
-                        </div>
-                        <div id="kehadiran-list-container" class="space-y-3"></div>
-                    </div>
-                </div>
-
-                <!-- View: Nilai Siswa -->
-                <div id="view-nilai" class="view-section">
-                    <h1 class="text-3xl font-bold text-[var(--text-heading)] mb-6">Manajemen Nilai Projek</h1>
-                    
-                    <!-- Rekapitulasi Nilai Projek -->
-                    <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
-                        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)]">Rekapitulasi Nilai Projek</h2>
-                            <div class="flex items-center gap-4">
-                                <select id="rekap-nilai-kelas-filter" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                <select id="rekap-nilai-mapel-filter" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                <button id="export-nilai-projek" class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-600 flex items-center transition-colors">
-                                    <i data-lucide="download" class="w-4 h-4 mr-2"></i> Export
-                                </button>
-                            </div>
-                        </div>
-                        <div id="rekap-nilai-container" class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
-                            <!-- Rekap table will be injected here -->
-                        </div>
-                    </div>
-
-                    <!-- Input Nilai & Manajemen Mapel/Projek -->
-                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                        <div class="lg:col-span-3 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Projek</h2>
-                            <form id="input-nilai-form" class="space-y-4">
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="nilai-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
-                                        <select id="nilai-kelas-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                    </div>
-                                    <div>
-                                        <label for="nilai-siswa-select" class="block text-sm font-medium text-[var(--text-secondary)]">Siswa</label>
-                                        <select id="nilai-siswa-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                    </div>
-                                    <div>
-                                        <label for="nilai-mapel-select" class="block text-sm font-medium text-[var(--text-secondary)]">Mata Pelajaran</label>
-                                        <select id="nilai-mapel-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                    </div>
-                                    <div>
-                                        <label for="nilai-projek-select" class="block text-sm font-medium text-[var(--text-secondary)]">Projek</label>
-                                        <select id="nilai-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                                    <div>
-                                        <label for="nilai-individual" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Individual</label>
-                                        <input type="number" id="nilai-individual" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    </div>
-                                    <div>
-                                        <label for="nilai-kelompok" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Kelompok</label>
-                                        <input type="number" id="nilai-kelompok" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    </div>
-                                    <div>
-                                        <label for="nilai-hasil-projek" class="block text-sm font-medium text-[var(--text-secondary)]">Hasil Projek</label>
-                                        <input type="number" id="nilai-hasil-projek" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    </div>
-                                </div>
-                                <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md">Simpan Nilai</button>
-                            </form>
-                        </div>
-                        <div class="lg:col-span-2 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Mapel & Projek</h2>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- View: Data Siswa -->
+                    <div id="view-siswa" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Dashboard Siswa</h1>
+                        <!-- Rekap Kehadiran Section -->
+                        <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
+                            <div class="flex flex-col sm:flex-row justify-between items-start mb-4">
                                 <div>
-                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Mapel</h3>
-                                    <form id="add-mapel-form" class="flex gap-2">
-                                        <input type="text" id="new-mapel-name" placeholder="Nama Mapel" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                        <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
-                                    </form>
-                                    <ul id="mapel-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
+                                    <h2 class="text-lg sm:text-xl font-semibold text-[var(--text-primary)]">Rekapitulasi Kehadiran</h2>
+                                    <p id="rekap-tanggal-display" class="text-sm text-[var(--text-secondary)]">Memuat tanggal...</p>
                                 </div>
-                                <div>
-                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Projek</h3>
-                                    <form id="add-projek-form" class="space-y-2">
-                                        <select id="projek-mapel-select" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        <div class="flex gap-2">
-                                            <input type="text" id="new-projek-name" placeholder="Nama Projek" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                            <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
-                                        </div>
-                                    </form>
-                                    <ul id="projek-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-4 mt-4 sm:mt-0 w-full sm:w-auto">
+                                    <select id="rekap-kelas-filter" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <div class="flex items-center gap-2" id="rekap-periode-filter">
+                                        <button data-periode="harian" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-200 dark:bg-slate-600">Harian</button>
+                                        <button data-periode="mingguan" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-100 dark:bg-slate-700">Mingguan</button>
+                                        <button data-periode="bulanan" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-100 dark:bg-slate-700">Bulanan</button>
+                                    </div>
+                                    <div id="periode-picker-container" class="relative">
+                                        <input type="date" id="rekap-harian-picker" class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        <p id="rekap-mingguan-display" class="hidden px-3 py-2 text-sm text-[var(--text-secondary)] bg-[var(--bg-muted)] rounded-lg"></p>
+                                        <input type="month" id="rekap-bulanan-picker" class="hidden w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center mt-6">
+                                <div class="md:col-span-1 h-64 flex justify-center items-center">
+                                    <canvas id="rekap-chart"></canvas>
+                                </div>
+                                <div id="rekap-stats-container" class="md:col-span-2 grid grid-cols-2 gap-4"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ringkasan Kelas Section -->
+                        <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
+                                <h2 class="text-lg sm:text-xl font-semibold text-[var(--text-primary)]">Ringkasan per Kelas</h2>
+                                <label for="siswa-file-input" class="cursor-pointer bg-green-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-600 flex items-center transition-colors">
+                                    <i data-lucide="upload" class="w-4 h-4 mr-2"></i> Import Data Siswa
+                                </label>
+                                <input type="file" id="siswa-file-input" class="hidden" accept=".xlsx, .xls">
+                            </div>
+                            <div class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
+                                <table class="min-w-full bg-[var(--bg-card)]">
+                                    <thead class="bg-[var(--bg-muted)]">
+                                        <tr>
+                                            <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)] w-16">No</th>
+                                            <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)]">Kelas</th>
+                                            <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)]">Jumlah Siswa</th>
+                                            <th class="py-3 px-4 text-left text-sm font-semibold text-[var(--text-secondary)] w-24">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="kelas-summary-body" class="divide-y divide-[var(--border-color)]"></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- View: Manajemen Kelompok -->
-                <div id="view-kelompok" class="view-section">
-                    <h1 class="text-3xl font-bold text-[var(--text-heading)] mb-6">Manajemen Kelompok</h1>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Kolom Kiri: Pengaturan Kelompok -->
-                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                    <!-- View: Input Kehadiran -->
+                    <div id="view-input-kehadiran" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Input Kehadiran Harian</h1>
+                        <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                            <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+                                <input type="date" id="kehadiran-tanggal" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+                                    <select id="kehadiran-kelas-filter" class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <input type="text" id="kehadiran-nama-filter" placeholder="Cari Nama Siswa..." class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                </div>
+                            </div>
+                            <div id="kehadiran-list-container" class="space-y-3"></div>
+                        </div>
+                    </div>
+
+                    <!-- View: Nilai Siswa -->
+                    <div id="view-nilai" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Manajemen Nilai Projek</h1>
+                        
+                        <!-- Rekapitulasi Nilai Projek -->
+                        <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
                             <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)]">Pengaturan Kelompok</h2>
-                                <select id="kelompok-kelas-filter" class="px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                <h2 class="text-lg sm:text-xl font-semibold text-[var(--text-primary)]">Rekapitulasi Nilai Projek</h2>
+                                <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                                    <select id="rekap-nilai-kelas-filter" class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <select id="rekap-nilai-mapel-filter" class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <button id="export-nilai-projek" class="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-600 flex items-center justify-center transition-colors">
+                                        <i data-lucide="download" class="w-4 h-4 mr-2"></i> Export
+                                    </button>
+                                </div>
                             </div>
-                            <div class="mb-6">
-                                <h3 class="font-semibold text-[var(--text-primary)] mb-2">Buat Kelompok Baru</h3>
-                                <form id="add-kelompok-form" class="flex gap-2">
-                                    <input type="text" id="new-kelompok-name" placeholder="Nama Kelompok (e.g., Kelompok 1)" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
+                            <div id="rekap-nilai-container" class="overflow-x-auto border border-[var(--border-color)] rounded-lg">
+                                <!-- Rekap table will be injected here -->
+                            </div>
+                        </div>
+
+                        <!-- Input Nilai & Manajemen Mapel/Projek -->
+                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                            <div class="lg:col-span-3 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Projek</h2>
+                                <form id="input-nilai-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="nilai-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
+                                            <select id="nilai-kelas-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                        <div>
+                                            <label for="nilai-siswa-select" class="block text-sm font-medium text-[var(--text-secondary)]">Siswa</label>
+                                            <select id="nilai-siswa-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                        <div>
+                                            <label for="nilai-mapel-select" class="block text-sm font-medium text-[var(--text-secondary)]">Mata Pelajaran</label>
+                                            <select id="nilai-mapel-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                        <div>
+                                            <label for="nilai-projek-select" class="block text-sm font-medium text-[var(--text-secondary)]">Projek</label>
+                                            <select id="nilai-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                                        <div>
+                                            <label for="nilai-individual" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Individual</label>
+                                            <input type="number" id="nilai-individual" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        </div>
+                                        <div>
+                                            <label for="nilai-kelompok" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Kelompok</label>
+                                            <input type="number" id="nilai-kelompok" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        </div>
+                                        <div>
+                                            <label for="nilai-hasil-projek" class="block text-sm font-medium text-[var(--text-secondary)]">Hasil Projek</label>
+                                            <input type="number" id="nilai-hasil-projek" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md">Simpan Nilai</button>
                                 </form>
                             </div>
-                            <div>
-                                <h3 class="font-semibold text-[var(--text-primary)] mb-2">Siswa Belum Berkelompok</h3>
-                                <div id="unassigned-students-list" class="space-y-2 h-64 overflow-y-auto p-2 bg-[var(--bg-muted)] rounded-lg">
-                                    <!-- Daftar siswa tanpa kelompok -->
+                            <div class="lg:col-span-2 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Mapel & Projek</h2>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div>
+                                        <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Mapel</h3>
+                                        <form id="add-mapel-form" class="flex gap-2">
+                                            <input type="text" id="new-mapel-name" placeholder="Nama Mapel" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                            <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
+                                        </form>
+                                        <ul id="mapel-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Projek</h3>
+                                        <form id="add-projek-form" class="space-y-2">
+                                            <select id="projek-mapel-select" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                            <div class="flex gap-2">
+                                                <input type="text" id="new-projek-name" placeholder="Nama Projek" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                                <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
+                                            </div>
+                                        </form>
+                                        <ul id="projek-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Kolom Kanan: Rekapitulasi Kelompok -->
-                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-4">Rekapitulasi Kelompok</h2>
-                            <div id="rekap-kelompok-container" class="space-y-4 h-[28.5rem] overflow-y-auto">
-                                <!-- Rekap kelompok per kelas -->
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- View: Pengaturan -->
-                <div id="view-pengaturan" class="view-section">
-                    <h1 class="text-3xl font-bold text-[var(--text-heading)] mb-6">Pengaturan Aplikasi</h1>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Kustomisasi Tampilan</h2>
-                            <div class="space-y-5 mt-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-[var(--text-secondary)]">Warna Utama</label>
-                                    <input type="color" id="color-picker" class="w-full h-10 p-1 border border-[var(--border-color)] rounded-lg mt-1 cursor-pointer">
+                    <!-- View: Manajemen Kelompok -->
+                    <div id="view-kelompok" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Manajemen Kelompok</h1>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Kolom Kiri: Pengaturan Kelompok -->
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
+                                    <h2 class="text-xl font-semibold text-[var(--text-primary)]">Pengaturan Kelompok</h2>
+                                    <select id="kelompok-kelas-filter" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                </div>
+                                <div class="mb-6">
+                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Buat Kelompok Baru</h3>
+                                    <form id="add-kelompok-form" class="flex gap-2">
+                                        <input type="text" id="new-kelompok-name" placeholder="Nama Kelompok (e.g., Kelompok 1)" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
+                                    </form>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-[var(--text-secondary)]">Logo Aplikasi (Rasio 1:1)</label>
-                                    <input type="file" id="logo-upload" class="w-full text-sm text-[var(--text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 mt-1">
+                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Siswa Belum Berkelompok</h3>
+                                    <div id="unassigned-students-list" class="space-y-2 h-64 overflow-y-auto p-2 bg-[var(--bg-muted)] rounded-lg">
+                                        <!-- Daftar siswa tanpa kelompok -->
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-[var(--text-secondary)]">Background Login</label>
-                                    <input type="file" id="background-upload" class="w-full text-sm text-[var(--text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 mt-1">
+                            </div>
+                            <!-- Kolom Kanan: Rekapitulasi Kelompok -->
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-4">Rekapitulasi Kelompok</h2>
+                                <div id="rekap-kelompok-container" class="space-y-4 h-[28.5rem] overflow-y-auto">
+                                    <!-- Rekap kelompok per kelas -->
                                 </div>
-                                <button id="save-settings" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md transition-shadow">Simpan Perubahan</button>
                             </div>
                         </div>
-                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                            <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Admin</h2>
-                            <form id="add-admin-form" class="space-y-5 mt-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-[var(--text-secondary)]">Email Admin Baru</label>
-                                    <input type="email" id="new-admin-email" placeholder="email@baru.com" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg mt-1 focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                    </div>
+
+                    <!-- View: Pengaturan -->
+                    <div id="view-pengaturan" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Pengaturan Aplikasi</h1>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Kustomisasi Tampilan</h2>
+                                <div class="space-y-5 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)]">Warna Utama</label>
+                                        <input type="color" id="color-picker" class="w-full h-10 p-1 border border-[var(--border-color)] rounded-lg mt-1 cursor-pointer">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)]">Logo Aplikasi (Rasio 1:1)</label>
+                                        <input type="file" id="logo-upload" class="w-full text-sm text-[var(--text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 mt-1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)]">Background Login</label>
+                                        <input type="file" id="background-upload" class="w-full text-sm text-[var(--text-secondary)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 mt-1">
+                                    </div>
+                                    <button id="save-settings" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md transition-shadow">Simpan Perubahan</button>
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-[var(--text-secondary)]">Password Admin Baru</label>
-                                    <input type="password" id="new-admin-password" placeholder="••••••••" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg mt-1 focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                </div>
-                                <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow">Tambah Admin</button>
-                            </form>
-                        </div>
-                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md lg:col-span-2 border border-[var(--border-color)]">
-                             <h2 class="text-xl font-semibold mb-3 text-red-600">Zona Berbahaya</h2>
-                             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                                 <div>
-                                     <h3 class="font-semibold text-[var(--text-primary)]">Reset Seluruh Data</h3>
-                                     <p class="text-sm text-[var(--text-secondary)] mt-1">Tindakan ini akan menghapus semua data siswa dan nilai secara permanen.</p>
+                            </div>
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Admin</h2>
+                                <form id="add-admin-form" class="space-y-5 mt-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)]">Email Admin Baru</label>
+                                        <input type="email" id="new-admin-email" placeholder="email@baru.com" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg mt-1 focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-[var(--text-secondary)]">Password Admin Baru</label>
+                                        <input type="password" id="new-admin-password" placeholder="••••••••" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg mt-1 focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                    </div>
+                                    <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow">Tambah Admin</button>
+                                </form>
+                            </div>
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md lg:col-span-2 border border-[var(--border-color)]">
+                                 <h2 class="text-xl font-semibold mb-3 text-red-600">Zona Berbahaya</h2>
+                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                                     <div>
+                                         <h3 class="font-semibold text-[var(--text-primary)]">Reset Seluruh Data</h3>
+                                         <p class="text-sm text-[var(--text-secondary)] mt-1">Tindakan ini akan menghapus semua data siswa dan nilai secara permanen.</p>
+                                     </div>
+                                     <button id="reset-data-button" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors mt-3 sm:mt-0 flex-shrink-0">Reset Data</button>
                                  </div>
-                                 <button id="reset-data-button" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors mt-3 sm:mt-0 flex-shrink-0">Reset Data</button>
-                             </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </main>
+                </main>
+            </div>
         </div>
     </div>
     
-    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 ease-in-out">
+    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 ease-in-out z-50">
         <p id="toast-message" class="font-medium">Operasi berhasil!</p>
     </div>
 
@@ -474,6 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sunIcon.classList.remove('hidden');
             moonIcon.classList.add('hidden');
         }
+        // Re-render charts with new theme colors
+        if (document.getElementById('view-siswa').style.display === 'block') renderRekapKehadiran();
     }
 
     const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -494,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         toastMessage.textContent = message;
-        toast.className = `fixed top-5 right-5 text-white py-2 px-5 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out ${isError ? 'bg-red-500' : 'bg-green-600'}`;
+        toast.className = `fixed top-5 right-5 text-white py-2 px-5 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${isError ? 'bg-red-500' : 'bg-green-600'}`;
         toast.classList.remove('translate-x-[120%]');
         setTimeout(() => { toast.classList.add('translate-x-[120%]'); }, 3000);
     }
@@ -1018,10 +1034,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // EVENT LISTENERS
     // =================================================================================
     function setupEventListeners() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const menuButton = document.getElementById('menu-button');
+
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 switchView(e.currentTarget.dataset.view);
+                // Hide sidebar on mobile after navigation
+                if (window.innerWidth < 1024) {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
             });
         });
 
