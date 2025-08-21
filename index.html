@@ -418,6 +418,10 @@
                                     </div>
                                     <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow">Tambah Admin</button>
                                 </form>
+                                <div class="mt-6">
+                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Daftar Admin</h3>
+                                    <ul id="admin-list" class="space-y-2 h-24 overflow-y-auto"></ul>
+                                </div>
                             </div>
                             <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md lg:col-span-2 border border-[var(--border-color)]">
                                  <h2 class="text-xl font-semibold mb-3 text-red-600">Zona Berbahaya</h2>
@@ -462,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allNilaiProjek = [];
     let allKelompok = [];
     let allKelompokAnggota = [];
+    let allAdmins = [];
     let rekapChartInstance = null;
     let rekapNilaiChartInstance = null;
 
@@ -488,7 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sunIcon.classList.remove('hidden');
             moonIcon.classList.add('hidden');
         }
-        // Re-render charts with new theme colors
         if (document.getElementById('view-siswa').style.display === 'block') renderRekapKehadiran();
     }
 
@@ -566,7 +570,8 @@ document.addEventListener('DOMContentLoaded', () => {
             loadProjekData(),
             loadNilaiProjekData(),
             loadKelompokData(),
-            loadKelompokAnggotaData()
+            loadKelompokAnggotaData(),
+            loadAdminData()
         ]);
         
         populateClassFilters();
@@ -627,6 +632,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data, error } = await supabase.from('kelompok_anggota').select('*');
         if (error) return showToast('Gagal memuat anggota kelompok.', true);
         allKelompokAnggota = data;
+    }
+
+    async function loadAdminData() {
+        const { data, error } = await supabase.from('admin_users').select('*');
+        if (error) return showToast('Gagal memuat data admin.', true);
+        allAdmins = data;
+        renderAdminList();
     }
     
     function populateClassFilters() {
@@ -714,6 +726,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
             `;
         }).join('');
+        lucide.createIcons();
+    }
+
+    function renderAdminList() {
+        const adminList = document.getElementById('admin-list');
+        adminList.innerHTML = allAdmins.map(admin => `
+            <li class="flex justify-between items-center p-2 bg-slate-100 dark:bg-slate-700 rounded">
+                <span class="text-sm">${admin.email}</span>
+                <button data-admin-id="${admin.id}" class="remove-admin-btn text-red-500 hover:text-red-700">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </li>
+        `).join('');
         lucide.createIcons();
     }
 
@@ -1283,12 +1308,34 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const email = document.getElementById('new-admin-email').value;
             const password = document.getElementById('new-admin-password').value;
-            const { error } = await supabase.auth.signUp({ email, password });
+            const { data, error } = await supabase.auth.signUp({ email, password });
             if (error) {
                 showToast('Gagal menambah admin: ' + error.message, true);
             } else {
-                showToast('Admin baru berhasil ditambahkan! Cek email untuk konfirmasi.');
+                // Also add to our public admin_users table
+                const { error: insertError } = await supabase.from('admin_users').insert({ id: data.user.id, email: data.user.email });
+                if(insertError) return showToast('User dibuat tapi gagal ditambahkan ke daftar.', true);
+                
+                showToast('Admin baru berhasil ditambahkan!');
                 e.target.reset();
+                await loadAdminData();
+            }
+        });
+
+        document.getElementById('admin-list').addEventListener('click', async (e) => {
+            const removeBtn = e.target.closest('.remove-admin-btn');
+            if(!removeBtn) return;
+
+            const adminId = removeBtn.dataset.adminId;
+            // NOTE: Deleting a user from Supabase Auth requires an admin-level client,
+            // which should NEVER be exposed on the front-end.
+            // This implementation only removes the user from our public `admin_users` table for UI purposes.
+            // A real-world application would require a secure serverless function to handle user deletion.
+            if (confirm('Apakah Anda yakin ingin menghapus admin ini dari daftar? (Ini tidak akan menghapus akun login mereka)')) {
+                const { error } = await supabase.from('admin_users').delete().eq('id', adminId);
+                if(error) return showToast('Gagal menghapus admin dari daftar.', true);
+                showToast('Admin berhasil dihapus dari daftar.');
+                await loadAdminData();
             }
         });
         
