@@ -366,6 +366,10 @@
                                         <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
                                     </form>
                                 </div>
+                                <div class="mb-4">
+                                    <label for="kelompok-nama-filter" class="block text-sm font-medium text-[var(--text-primary)] mb-2">Cari Siswa</label>
+                                    <input type="text" id="kelompok-nama-filter" placeholder="Ketik nama siswa..." class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                </div>
                                 <div>
                                     <h3 class="font-semibold text-[var(--text-primary)] mb-2">Siswa Belum Berkelompok</h3>
                                     <div id="unassigned-students-list" class="space-y-2 h-64 overflow-y-auto p-2 bg-[var(--bg-muted)] rounded-lg">
@@ -376,7 +380,7 @@
                             <!-- Kolom Kanan: Rekapitulasi Kelompok -->
                             <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
                                 <h2 class="text-xl font-semibold text-[var(--text-primary)] mb-4">Rekapitulasi Kelompok</h2>
-                                <div id="rekap-kelompok-container" class="space-y-4 h-[28.5rem] overflow-y-auto">
+                                <div id="rekap-kelompok-container" class="space-y-4 h-[35rem] overflow-y-auto">
                                     <!-- Rekap kelompok per kelas -->
                                 </div>
                             </div>
@@ -969,6 +973,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const kelas = document.getElementById('kelompok-kelas-filter').value;
         const unassignedList = document.getElementById('unassigned-students-list');
         const rekapContainer = document.getElementById('rekap-kelompok-container');
+        const searchName = document.getElementById('kelompok-nama-filter').value.toLowerCase();
 
         if (kelas === 'semua') {
             unassignedList.innerHTML = `<p class="text-center text-slate-500 p-4">Pilih kelas untuk melihat siswa.</p>`;
@@ -982,7 +987,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .filter(a => kelompokInClass.some(k => k.id === a.kelompok_id))
             .map(a => a.siswa_id);
 
-        const unassignedStudents = studentsInClass.filter(s => !assignedStudentIds.includes(s.id));
+        const unassignedStudents = studentsInClass
+            .filter(s => !assignedStudentIds.includes(s.id))
+            .filter(s => s.nama.toLowerCase().includes(searchName));
 
         // Render unassigned students
         if (unassignedStudents.length > 0) {
@@ -996,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `).join('');
         } else {
-            unassignedList.innerHTML = `<p class="text-center text-slate-500 p-4">Semua siswa sudah memiliki kelompok.</p>`;
+            unassignedList.innerHTML = `<p class="text-center text-slate-500 p-4">Tidak ada siswa yang cocok.</p>`;
         }
 
         // Render rekap kelompok
@@ -1228,6 +1235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         document.getElementById('kelompok-kelas-filter').addEventListener('change', renderKelompokManagementUI);
+        document.getElementById('kelompok-nama-filter').addEventListener('input', renderKelompokManagementUI);
 
         document.getElementById('add-kelompok-form').addEventListener('submit', async (e) => {
             e.preventDefault();
