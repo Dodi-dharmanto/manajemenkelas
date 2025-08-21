@@ -283,10 +283,10 @@
                         </div>
 
                         <!-- Input Nilai & Manajemen Mapel/Projek -->
-                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                            <div class="lg:col-span-3 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Projek</h2>
-                                <form id="input-nilai-form" class="space-y-4">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Individual</h2>
+                                <form id="input-nilai-individual-form" class="space-y-4">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label for="nilai-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
@@ -305,45 +305,63 @@
                                             <select id="nilai-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                                        <div>
-                                            <label for="nilai-individual" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Individual</label>
-                                            <input type="number" id="nilai-individual" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                        </div>
-                                        <div>
-                                            <label for="nilai-kelompok" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Kelompok</label>
-                                            <input type="number" id="nilai-kelompok" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                        </div>
-                                        <div>
-                                            <label for="nilai-hasil-projek" class="block text-sm font-medium text-[var(--text-secondary)]">Hasil Projek</label>
-                                            <input type="number" id="nilai-hasil-projek" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                        </div>
+                                    <div>
+                                        <label for="nilai-individual" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Individual</label>
+                                        <input type="number" id="nilai-individual" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
                                     </div>
-                                    <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md">Simpan Nilai</button>
+                                    <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md">Simpan Nilai Individual</button>
                                 </form>
                             </div>
-                            <div class="lg:col-span-2 bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Mapel & Projek</h2>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                             <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
+                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Kelompok</h2>
+                                <form id="input-nilai-kelompok-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="nilai-kelompok-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
+                                            <select id="nilai-kelompok-kelas-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                        <div>
+                                            <label for="nilai-kelompok-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelompok</label>
+                                            <select id="nilai-kelompok-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                         <div>
+                                            <label for="nilai-kelompok-mapel-select" class="block text-sm font-medium text-[var(--text-secondary)]">Mata Pelajaran</label>
+                                            <select id="nilai-kelompok-mapel-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                        <div>
+                                            <label for="nilai-kelompok-projek-select" class="block text-sm font-medium text-[var(--text-secondary)]">Projek</label>
+                                            <select id="nilai-kelompok-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        </div>
+                                    </div>
                                     <div>
-                                        <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Mapel</h3>
-                                        <form id="add-mapel-form" class="flex gap-2">
-                                            <input type="text" id="new-mapel-name" placeholder="Nama Mapel" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        <label for="nilai-kelompok" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Kelompok</label>
+                                        <input type="number" id="nilai-kelompok" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                    </div>
+                                    <button type="submit" class="w-full btn-primary text-white font-bold py-2.5 rounded-lg mt-4 shadow-sm hover:shadow-md">Simpan Nilai Kelompok</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)] mt-8">
+                            <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Mapel & Projek</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Mapel</h3>
+                                    <form id="add-mapel-form" class="flex gap-2">
+                                        <input type="text" id="new-mapel-name" placeholder="Nama Mapel" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
+                                        <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
+                                    </form>
+                                    <ul id="mapel-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Projek</h3>
+                                    <form id="add-projek-form" class="space-y-2">
+                                        <select id="projek-mapel-select" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                        <div class="flex gap-2">
+                                            <input type="text" id="new-projek-name" placeholder="Nama Projek" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
                                             <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
-                                        </form>
-                                        <ul id="mapel-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-semibold text-[var(--text-primary)] mb-2">Tambah Projek</h3>
-                                        <form id="add-projek-form" class="space-y-2">
-                                            <select id="projek-mapel-select" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                            <div class="flex gap-2">
-                                                <input type="text" id="new-projek-name" placeholder="Nama Projek" required class="w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                                <button type="submit" class="btn-primary text-white p-2 rounded-lg flex-shrink-0"><i data-lucide="plus"></i></button>
-                                            </div>
-                                        </form>
-                                        <ul id="projek-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
-                                    </div>
+                                        </div>
+                                    </form>
+                                    <ul id="projek-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
                                 </div>
                             </div>
                         </div>
@@ -429,12 +447,21 @@
                             </div>
                             <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md lg:col-span-2 border border-[var(--border-color)]">
                                  <h2 class="text-xl font-semibold mb-3 text-red-600">Zona Berbahaya</h2>
-                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                                     <div>
-                                         <h3 class="font-semibold text-[var(--text-primary)]">Reset Seluruh Data</h3>
-                                         <p class="text-sm text-[var(--text-secondary)] mt-1">Tindakan ini akan menghapus semua data siswa dan nilai secara permanen.</p>
-                                     </div>
-                                     <button id="reset-data-button" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors mt-3 sm:mt-0 flex-shrink-0">Reset Data</button>
+                                 <div class="space-y-4">
+                                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-[var(--text-primary)]">Reset Data Nilai</h3>
+                                            <p class="text-sm text-[var(--text-secondary)] mt-1">Menghapus semua data nilai projek (individual & kelompok).</p>
+                                        </div>
+                                        <button id="reset-nilai-button" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors mt-3 sm:mt-0 flex-shrink-0">Reset Nilai</button>
+                                    </div>
+                                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-[var(--text-primary)]">Reset Data Kehadiran</h3>
+                                            <p class="text-sm text-[var(--text-secondary)] mt-1">Menghapus semua data kehadiran siswa.</p>
+                                        </div>
+                                        <button id="reset-kehadiran-button" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition-colors mt-3 sm:mt-0 flex-shrink-0">Reset Kehadiran</button>
+                                    </div>
                                  </div>
                             </div>
                         </div>
@@ -447,6 +474,18 @@
     
     <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 ease-in-out z-50">
         <p id="toast-message" class="font-medium">Operasi berhasil!</p>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-lg w-full max-w-md text-center border border-[var(--border-color)]">
+            <h3 id="modal-title" class="text-lg font-bold text-[var(--text-heading)] mb-2">Konfirmasi Tindakan</h3>
+            <p id="modal-message" class="text-sm text-[var(--text-secondary)] mb-6">Apakah Anda yakin?</p>
+            <div class="flex justify-center gap-4">
+                <button id="modal-cancel-btn" class="px-4 py-2 bg-slate-200 dark:bg-slate-600 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 text-[var(--text-primary)]">Batal</button>
+                <button id="modal-confirm-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Konfirmasi</button>
+            </div>
+        </div>
     </div>
 
 
@@ -467,7 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allClasses = [];
     let allMapel = [];
     let allProjek = [];
-    let allNilaiProjek = [];
+    let allNilaiProjekIndividual = [];
+    let allNilaiProjekKelompok = [];
     let allKelompok = [];
     let allKelompokAnggota = [];
     let allAdmins = [];
@@ -572,7 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
             loadSiswaData(),
             loadMapelData(),
             loadProjekData(),
-            loadNilaiProjekData(),
+            loadNilaiProjekIndividualData(),
+            loadNilaiProjekKelompokData(),
             loadKelompokData(),
             loadKelompokAnggotaData(),
             loadAdminData()
@@ -620,10 +661,16 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProjekList();
     }
 
-    async function loadNilaiProjekData() {
-        const { data, error } = await supabase.from('nilai_projek').select('*');
-        if (error) return showToast('Gagal memuat data nilai projek.', true);
-        allNilaiProjek = data;
+    async function loadNilaiProjekIndividualData() {
+        const { data, error } = await supabase.from('nilai_projek_individual').select('*');
+        if (error) return showToast('Gagal memuat nilai individual.', true);
+        allNilaiProjekIndividual = data;
+    }
+    
+    async function loadNilaiProjekKelompokData() {
+        const { data, error } = await supabase.from('nilai_projek_kelompok').select('*');
+        if (error) return showToast('Gagal memuat nilai kelompok.', true);
+        allNilaiProjekKelompok = data;
     }
 
     async function loadKelompokData() {
@@ -651,12 +698,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('rekap-kelas-filter'),
             document.getElementById('nilai-kelas-select'),
             document.getElementById('rekap-nilai-kelas-filter'),
-            document.getElementById('kelompok-kelas-filter')
+            document.getElementById('kelompok-kelas-filter'),
+            document.getElementById('nilai-kelompok-kelas-select')
         ];
         filters.forEach(filter => {
             if(filter) {
                 const isRekapNilai = filter.id === 'rekap-nilai-kelas-filter';
-                const isKelompok = filter.id === 'kelompok-kelas-filter';
+                const isKelompok = filter.id === 'kelompok-kelas-filter' || filter.id === 'nilai-kelompok-kelas-select';
                 let defaultOption = isRekapNilai || isKelompok ? 'Pilih Kelas' : 'Semua Kelas';
                 filter.innerHTML = `<option value="semua">${defaultOption}</option>`;
                 allClasses.forEach(kelas => {
@@ -670,7 +718,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const selects = [
             document.getElementById('nilai-mapel-select'),
             document.getElementById('projek-mapel-select'),
-            document.getElementById('rekap-nilai-mapel-filter')
+            document.getElementById('rekap-nilai-mapel-filter'),
+            document.getElementById('nilai-kelompok-mapel-select')
         ];
         selects.forEach(select => {
             if(select) {
@@ -887,10 +936,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return { startDate: selectedDate, endDate: selectedDate };
         }
         if (periode === 'mingguan') {
-            const weekStart = new Date(today.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1) ));
-            const weekEnd = new Date(today.setDate(today.getDate() - today.getDay() + 7));
+            const dayOfWeek = today.getDay();
+            const firstDayOfWeek = new Date(today.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)));
+            const weekEnd = new Date(today.setDate(firstDayOfWeek.getDate() + 6));
             return { 
-                startDate: weekStart.toISOString().split('T')[0], 
+                startDate: firstDayOfWeek.toISOString().split('T')[0], 
                 endDate: weekEnd.toISOString().split('T')[0] 
             };
         }
@@ -939,26 +989,35 @@ document.addEventListener('DOMContentLoaded', () => {
             <tbody class="divide-y divide-[var(--border-color)]">`;
         
         studentsInClass.forEach(siswa => {
-            let totalNilai = 0;
+            let totalNilaiAkhir = 0;
             let jumlahProjekDenganNilai = 0;
 
             tableHTML += `<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50">
                 <td class="py-2 px-4 font-medium text-[var(--text-primary)]">${siswa.nama}</td>`;
             
             projectsInMapel.forEach(projek => {
-                const nilai = allNilaiProjek.find(n => n.siswa_id === siswa.id && n.projek_id === projek.id);
+                const nilaiInd = allNilaiProjekIndividual.find(n => n.siswa_id === siswa.id && n.projek_id === projek.id);
+                
+                const kelompokSiswa = allKelompokAnggota.find(ka => ka.siswa_id === siswa.id);
+                const nilaiKel = kelompokSiswa ? allNilaiProjekKelompok.find(nk => nk.kelompok_id === kelompokSiswa.kelompok_id && nk.projek_id === projek.id) : null;
+
                 let nilaiAkhirProjek = '-';
-                if (nilai) {
-                    const total = (nilai.nilai_individual || 0) + (nilai.nilai_kelompok || 0) + (nilai.nilai_hasil_projek || 0);
-                    nilaiAkhirProjek = Math.round(total / 3);
-                    totalNilai += nilaiAkhirProjek;
+                let components = [];
+                if (nilaiInd) components.push(nilaiInd.nilai_individual);
+                if (nilaiKel) components.push(nilaiKel.nilai_kelompok);
+
+                if (components.length > 0) {
+                    const total = components.reduce((a, b) => a + b, 0);
+                    nilaiAkhirProjek = Math.round(total / components.length);
+                    totalNilaiAkhir += nilaiAkhirProjek;
                     jumlahProjekDenganNilai++;
                 }
+                
                 tableHTML += `<td class="py-2 px-4 text-center">${nilaiAkhirProjek}</td>`;
             });
 
-            const rataRataAkhir = jumlahProjekDenganNilai > 0 ? Math.round(totalNilai / jumlahProjekDenganNilai) : '-';
-            tableHTML += `<td class="py-2 px-4 text-center font-bold text-[var(--text-primary)] bg-slate-100 dark:bg-slate-700">${rataRataAkhir}</td>`;
+            const rataRataKeseluruhan = jumlahProjekDenganNilai > 0 ? Math.round(totalNilaiAkhir / jumlahProjekDenganNilai) : '-';
+            tableHTML += `<td class="py-2 px-4 text-center font-bold text-[var(--text-primary)] bg-slate-100 dark:bg-slate-700">${rataRataKeseluruhan}</td>`;
             tableHTML += `</tr>`;
         });
 
@@ -1202,24 +1261,71 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const inputNilaiForm = document.getElementById('input-nilai-form');
-        if(inputNilaiForm) {
-            inputNilaiForm.addEventListener('submit', async (e) => {
+        const inputNilaiIndividualForm = document.getElementById('input-nilai-individual-form');
+        if(inputNilaiIndividualForm) {
+            inputNilaiIndividualForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const nilaiData = {
                     siswa_id: document.getElementById('nilai-siswa-select').value,
                     projek_id: document.getElementById('nilai-projek-select').value,
                     nilai_individual: document.getElementById('nilai-individual').value,
-                    nilai_kelompok: document.getElementById('nilai-kelompok').value,
-                    nilai_hasil_projek: document.getElementById('nilai-hasil-projek').value,
                 };
 
-                const { error } = await supabase.from('nilai_projek').upsert(nilaiData, { onConflict: 'siswa_id, projek_id' });
+                const { error } = await supabase.from('nilai_projek_individual').upsert(nilaiData, { onConflict: 'siswa_id, projek_id' });
                 if (error) return showToast(`Gagal menyimpan nilai: ${error.message}`, true);
-                showToast('Nilai berhasil disimpan!');
-                inputNilaiForm.reset();
-                await loadNilaiProjekData();
+                
+                showToast('Nilai individual berhasil disimpan!');
+                e.target.reset();
+                await loadNilaiProjekIndividualData();
                 renderRekapNilaiProjek();
+            });
+        }
+
+        const inputNilaiKelompokForm = document.getElementById('input-nilai-kelompok-form');
+        if(inputNilaiKelompokForm) {
+            inputNilaiKelompokForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nilaiData = {
+                    kelompok_id: document.getElementById('nilai-kelompok-select').value,
+                    projek_id: document.getElementById('nilai-kelompok-projek-select').value,
+                    nilai_kelompok: document.getElementById('nilai-kelompok').value,
+                };
+
+                const { error } = await supabase.from('nilai_projek_kelompok').upsert(nilaiData, { onConflict: 'kelompok_id, projek_id' });
+                if (error) return showToast(`Gagal menyimpan nilai: ${error.message}`, true);
+
+                showToast('Nilai kelompok berhasil disimpan!');
+                e.target.reset();
+                await loadNilaiProjekKelompokData();
+                renderRekapNilaiProjek();
+            });
+        }
+        
+        const nilaiKelompokKelasSelect = document.getElementById('nilai-kelompok-kelas-select');
+        if(nilaiKelompokKelasSelect) {
+            nilaiKelompokKelasSelect.addEventListener('change', (e) => {
+                const selectedKelas = e.target.value;
+                const kelompokSelect = document.getElementById('nilai-kelompok-select');
+                kelompokSelect.innerHTML = '<option value="">Pilih Kelompok</option>';
+                allKelompok
+                    .filter(k => k.kelas === selectedKelas)
+                    .forEach(k => {
+                        kelompokSelect.innerHTML += `<option value="${k.id}">${k.nama_kelompok}</option>`;
+                    });
+            });
+        }
+
+        const nilaiKelompokMapelSelect = document.getElementById('nilai-kelompok-mapel-select');
+        if(nilaiKelompokMapelSelect) {
+            nilaiKelompokMapelSelect.addEventListener('change', (e) => {
+                const selectedMapelId = e.target.value;
+                const projekSelect = document.getElementById('nilai-kelompok-projek-select');
+                projekSelect.innerHTML = '<option value="">Pilih Projek</option>';
+                allProjek
+                    .filter(p => p.mapel_id == selectedMapelId)
+                    .forEach(p => {
+                        projekSelect.innerHTML += `<option value="${p.id}">${p.nama_projek}</option>`;
+                    });
             });
         }
 
@@ -1347,25 +1453,60 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        document.getElementById('reset-data-button').addEventListener('click', async () => {
-            const confirmation = prompt("Ini akan menghapus SEMUA data siswa, kehadiran, dan nilai. Ketik 'RESET' untuk konfirmasi.");
-            if (confirmation === 'RESET') {
-                const { error: siswaError } = await supabase.from('siswa').delete().neq('id', 0);
-                const { error: kehadiranError } = await supabase.from('kehadiran').delete().neq('id', 0);
-                const { error: gradesError } = await supabase.from('nilai_projek').delete().neq('id', 0);
-                if (siswaError || gradesError || kehadiranError) {
-                    showToast('Terjadi kesalahan saat mereset data.', true);
-                } else {
-                    showToast('Semua data berhasil direset.');
-                    await loadSiswaData();
-                    renderKelasSummaryTable();
-                    await loadNilaiProjekData();
-                    renderRekapKehadiran();
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCancelBtn = document.getElementById('modal-cancel-btn');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+        let confirmAction = null;
+
+        function showConfirmationModal(title, message, onConfirmCallback) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            confirmAction = onConfirmCallback;
+            confirmationModal.classList.remove('hidden');
+            confirmationModal.classList.add('flex');
+        }
+
+        function hideConfirmationModal() {
+            confirmationModal.classList.add('hidden');
+            confirmationModal.classList.remove('flex');
+            confirmAction = null;
+        }
+
+        modalCancelBtn.addEventListener('click', hideConfirmationModal);
+        modalConfirmBtn.addEventListener('click', () => {
+            if (typeof confirmAction === 'function') {
+                confirmAction();
+            }
+            hideConfirmationModal();
+        });
+
+        document.getElementById('reset-nilai-button').addEventListener('click', () => {
+            showConfirmationModal(
+                'Reset Data Nilai',
+                'Apakah Anda yakin ingin menghapus SEMUA data nilai projek? Tindakan ini tidak dapat diurungkan.',
+                async () => {
+                    await supabase.from('nilai_projek_individual').delete().neq('id', 0);
+                    await supabase.from('nilai_projek_kelompok').delete().neq('id', 0);
+                    showToast('Semua data nilai berhasil direset.');
+                    await loadNilaiProjekIndividualData();
+                    await loadNilaiProjekKelompokData();
                     renderRekapNilaiProjek();
                 }
-            } else {
-                showToast('Reset data dibatalkan.', true);
-            }
+            );
+        });
+
+        document.getElementById('reset-kehadiran-button').addEventListener('click', () => {
+            showConfirmationModal(
+                'Reset Data Kehadiran',
+                'Apakah Anda yakin ingin menghapus SEMUA data kehadiran? Tindakan ini tidak dapat diurungkan.',
+                async () => {
+                    await supabase.from('kehadiran').delete().neq('id', 0);
+                    showToast('Semua data kehadiran berhasil direset.');
+                    await renderRekapKehadiran();
+                }
+            );
         });
     }
     
