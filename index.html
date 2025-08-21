@@ -475,6 +475,18 @@
     <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-lg transform translate-x-[120%] transition-transform duration-300 ease-in-out z-50">
         <p id="toast-message" class="font-medium">Operasi berhasil!</p>
     </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-lg w-full max-w-md text-center border border-[var(--border-color)]">
+            <h3 id="modal-title" class="text-lg font-bold text-[var(--text-heading)] mb-2">Konfirmasi Tindakan</h3>
+            <p id="modal-message" class="text-sm text-[var(--text-secondary)] mb-6">Apakah Anda yakin?</p>
+            <div class="flex justify-center gap-4">
+                <button id="modal-cancel-btn" class="px-4 py-2 bg-slate-200 dark:bg-slate-600 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-500 text-[var(--text-primary)]">Batal</button>
+                <button id="modal-confirm-btn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Konfirmasi</button>
+            </div>
+        </div>
+    </div>
 
 
 <script>
@@ -1441,29 +1453,60 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        document.getElementById('reset-nilai-button').addEventListener('click', async () => {
-            const confirmation = prompt("Ini akan menghapus SEMUA data nilai projek. Ketik 'RESET NILAI' untuk konfirmasi.");
-            if (confirmation === 'RESET NILAI') {
-                await supabase.from('nilai_projek_individual').delete().neq('id', 0);
-                await supabase.from('nilai_projek_kelompok').delete().neq('id', 0);
-                showToast('Semua data nilai berhasil direset.');
-                await loadNilaiProjekIndividualData();
-                await loadNilaiProjekKelompokData();
-                renderRekapNilaiProjek();
-            } else {
-                showToast('Reset data nilai dibatalkan.', true);
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCancelBtn = document.getElementById('modal-cancel-btn');
+        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+        let confirmAction = null;
+
+        function showConfirmationModal(title, message, onConfirmCallback) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            confirmAction = onConfirmCallback;
+            confirmationModal.classList.remove('hidden');
+            confirmationModal.classList.add('flex');
+        }
+
+        function hideConfirmationModal() {
+            confirmationModal.classList.add('hidden');
+            confirmationModal.classList.remove('flex');
+            confirmAction = null;
+        }
+
+        modalCancelBtn.addEventListener('click', hideConfirmationModal);
+        modalConfirmBtn.addEventListener('click', () => {
+            if (typeof confirmAction === 'function') {
+                confirmAction();
             }
+            hideConfirmationModal();
         });
 
-        document.getElementById('reset-kehadiran-button').addEventListener('click', async () => {
-            const confirmation = prompt("Ini akan menghapus SEMUA data kehadiran. Ketik 'RESET KEHADIRAN' untuk konfirmasi.");
-            if (confirmation === 'RESET KEHADIRAN') {
-                await supabase.from('kehadiran').delete().neq('id', 0);
-                showToast('Semua data kehadiran berhasil direset.');
-                await renderRekapKehadiran();
-            } else {
-                showToast('Reset data kehadiran dibatalkan.', true);
-            }
+        document.getElementById('reset-nilai-button').addEventListener('click', () => {
+            showConfirmationModal(
+                'Reset Data Nilai',
+                'Apakah Anda yakin ingin menghapus SEMUA data nilai projek? Tindakan ini tidak dapat diurungkan.',
+                async () => {
+                    await supabase.from('nilai_projek_individual').delete().neq('id', 0);
+                    await supabase.from('nilai_projek_kelompok').delete().neq('id', 0);
+                    showToast('Semua data nilai berhasil direset.');
+                    await loadNilaiProjekIndividualData();
+                    await loadNilaiProjekKelompokData();
+                    renderRekapNilaiProjek();
+                }
+            );
+        });
+
+        document.getElementById('reset-kehadiran-button').addEventListener('click', () => {
+            showConfirmationModal(
+                'Reset Data Kehadiran',
+                'Apakah Anda yakin ingin menghapus SEMUA data kehadiran? Tindakan ini tidak dapat diurungkan.',
+                async () => {
+                    await supabase.from('kehadiran').delete().neq('id', 0);
+                    showToast('Semua data kehadiran berhasil direset.');
+                    await renderRekapKehadiran();
+                }
+            );
         });
     }
     
