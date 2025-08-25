@@ -162,6 +162,9 @@
                     <a href="#" data-view="nilai" class="nav-link flex items-center px-3 py-2.5 text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-muted)] transition-colors duration-200">
                         <i data-lucide="graduation-cap" class="w-5 h-5 mr-3"></i> Nilai Siswa
                     </a>
+                    <a href="#" data-view="lembar-penilaian" class="nav-link flex items-center px-3 py-2.5 text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-muted)] transition-colors duration-200">
+                        <i data-lucide="clipboard-check" class="w-5 h-5 mr-3"></i> Lembar Penilaian
+                    </a>
                     <a href="#" data-view="kelompok" class="nav-link flex items-center px-3 py-2.5 text-[var(--text-secondary)] rounded-md hover:bg-[var(--bg-muted)] transition-colors duration-200">
                         <i data-lucide="users-2" class="w-5 h-5 mr-3"></i> Manajemen Kelompok
                     </a>
@@ -295,7 +298,7 @@
 
                     <!-- View: Nilai Siswa -->
                     <div id="view-nilai" class="view-section">
-                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Manajemen Nilai Projek</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Rekapitulasi Nilai Projek</h1>
                         
                         <!-- Rekapitulasi Nilai Projek -->
                         <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
@@ -313,66 +316,7 @@
                                 <!-- Rekap table will be injected here -->
                             </div>
                         </div>
-
-                        <!-- Input Nilai & Manajemen Mapel/Projek -->
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Individual</h2>
-                                <form id="input-nilai-individual-form" class="space-y-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="nilai-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
-                                            <select id="nilai-kelas-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                        <div>
-                                            <label for="nilai-siswa-select" class="block text-sm font-medium text-[var(--text-secondary)]">Siswa</label>
-                                            <select id="nilai-siswa-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                        <div>
-                                            <label for="nilai-mapel-select" class="block text-sm font-medium text-[var(--text-secondary)]">Mata Pelajaran</label>
-                                            <select id="nilai-mapel-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                        <div>
-                                            <label for="nilai-projek-select" class="block text-sm font-medium text-[var(--text-secondary)]">Projek</label>
-                                            <select id="nilai-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="nilai-individual" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Individual</label>
-                                        <input type="number" id="nilai-individual" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    </div>
-                                    <button type="submit" class="w-full btn-gradient text-white font-bold py-2.5 rounded-lg mt-4">Simpan Nilai Individual</button>
-                                </form>
-                            </div>
-                             <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                                <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Input Nilai Kelompok</h2>
-                                <form id="input-nilai-kelompok-form" class="space-y-4">
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div>
-                                            <label for="nilai-kelompok-kelas-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelas</label>
-                                            <select id="nilai-kelompok-kelas-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                        <div>
-                                            <label for="nilai-kelompok-select" class="block text-sm font-medium text-[var(--text-secondary)]">Kelompok</label>
-                                            <select id="nilai-kelompok-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                         <div>
-                                            <label for="nilai-kelompok-mapel-select" class="block text-sm font-medium text-[var(--text-secondary)]">Mata Pelajaran</label>
-                                            <select id="nilai-kelompok-mapel-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                        <div>
-                                            <label for="nilai-kelompok-projek-select" class="block text-sm font-medium text-[var(--text-secondary)]">Projek</label>
-                                            <select id="nilai-kelompok-projek-select" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="nilai-kelompok" class="block text-sm font-medium text-[var(--text-secondary)]">Nilai Kelompok</label>
-                                        <input type="number" id="nilai-kelompok" min="0" max="100" required class="mt-1 w-full px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]">
-                                    </div>
-                                    <button type="submit" class="w-full btn-gradient text-white font-bold py-2.5 rounded-lg mt-4">Simpan Nilai Kelompok</button>
-                                </form>
-                            </div>
-                        </div>
+                        
                         <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)] mt-8">
                             <h2 class="text-xl font-semibold text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3 mb-4">Manajemen Mapel & Projek</h2>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -396,6 +340,27 @@
                                     <ul id="projek-list" class="mt-3 space-y-1 text-sm h-24 overflow-y-auto"></ul>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- View: Lembar Penilaian -->
+                    <div id="view-lembar-penilaian" class="view-section">
+                        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-heading)] mb-6">Lembar Penilaian Projek</h1>
+                        <div class="bg-[var(--bg-card)] p-4 sm:p-6 rounded-xl shadow-md mb-8 border border-[var(--border-color)]">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <h2 class="text-lg sm:text-xl font-semibold text-[var(--text-primary)]">Filter Penilaian</h2>
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-4 w-full sm:w-auto">
+                                    <select id="lp-projek-filter" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <select id="lp-kelas-filter" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                    <select id="lp-kelompok-filter" class="w-full sm:w-auto px-3 py-2 border border-[var(--border-color)] rounded-lg focus:outline-none focus:ring-2 ring-primary bg-[var(--bg-card)]"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="lembar-penilaian-container" class="overflow-x-auto border border-[var(--border-color)] rounded-lg bg-[var(--bg-card)]">
+                            <!-- Assessment sheet will be injected here -->
+                        </div>
+                        <div id="lembar-penilaian-actions" class="mt-6 text-right hidden">
+                            <button id="save-penilaian-btn" class="btn-gradient text-white font-bold py-2 px-6 rounded-lg">Simpan Penilaian</button>
                         </div>
                     </div>
 
@@ -538,8 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allClasses = [];
     let allMapel = [];
     let allProjek = [];
-    let allNilaiProjekIndividual = [];
-    let allNilaiProjekKelompok = [];
+    let allPenilaianProjek = [];
     let allKelompok = [];
     let allKelompokAnggota = [];
     let allAdmins = [];
@@ -644,8 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadSiswaData(),
             loadMapelData(),
             loadProjekData(),
-            loadNilaiProjekIndividualData(),
-            loadNilaiProjekKelompokData(),
+            loadPenilaianProjekData(),
             loadKelompokData(),
             loadKelompokAnggotaData(),
             loadAdminData()
@@ -653,6 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         populateClassFilters();
         populateMapelSelects();
+        populateLpProjekFilter();
         
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('kehadiran-tanggal').value = today;
@@ -695,18 +659,12 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProjekList();
     }
 
-    async function loadNilaiProjekIndividualData() {
-        const { data, error } = await supabase.from('nilai_projek_individual').select('*');
-        if (error) return showToast('Gagal memuat nilai individual.', true);
-        allNilaiProjekIndividual = data;
+    async function loadPenilaianProjekData() {
+        const { data, error } = await supabase.from('penilaian_projek').select('*');
+        if (error) return showToast('Gagal memuat data penilaian.', true);
+        allPenilaianProjek = data;
     }
     
-    async function loadNilaiProjekKelompokData() {
-        const { data, error } = await supabase.from('nilai_projek_kelompok').select('*');
-        if (error) return showToast('Gagal memuat nilai kelompok.', true);
-        allNilaiProjekKelompok = data;
-    }
-
     async function loadKelompokData() {
         const { data, error } = await supabase.from('kelompok').select('*');
         if (error) return showToast('Gagal memuat data kelompok.', true);
@@ -730,18 +688,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const filters = [
             document.getElementById('kehadiran-kelas-filter'),
             document.getElementById('rekap-kelas-filter'),
-            document.getElementById('nilai-kelas-select'),
             document.getElementById('rekap-nilai-kelas-filter'),
             document.getElementById('kelompok-kelas-filter'),
-            document.getElementById('nilai-kelompok-kelas-select'),
-            document.getElementById('rekap-siswa-kelas-filter')
+            document.getElementById('rekap-siswa-kelas-filter'),
+            document.getElementById('lp-kelas-filter')
         ];
         filters.forEach(filter => {
             if(filter) {
                 const isRekap = ['rekap-nilai-kelas-filter', 'rekap-siswa-kelas-filter'].includes(filter.id);
-                const isKelompok = filter.id === 'kelompok-kelas-filter' || filter.id === 'nilai-kelompok-kelas-select';
+                const isKelompok = ['kelompok-kelas-filter', 'lp-kelas-filter'].includes(filter.id);
                 let defaultOption = isRekap || isKelompok ? 'Pilih Kelas' : 'Semua Kelas';
-                filter.innerHTML = `<option value="semua">${defaultOption}</option>`;
+                filter.innerHTML = `<option value="">${defaultOption}</option>`;
                 allClasses.forEach(kelas => {
                     filter.innerHTML += `<option value="${kelas}">${kelas}</option>`;
                 });
@@ -751,19 +708,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateMapelSelects() {
         const selects = [
-            document.getElementById('nilai-mapel-select'),
             document.getElementById('projek-mapel-select'),
             document.getElementById('rekap-nilai-mapel-filter'),
-            document.getElementById('nilai-kelompok-mapel-select')
         ];
         selects.forEach(select => {
             if(select) {
                 const isRekap = select.id === 'rekap-nilai-mapel-filter';
-                select.innerHTML = `<option value="semua">${isRekap ? 'Pilih Mapel' : 'Pilih Mapel'}</option>`;
+                select.innerHTML = `<option value="">${isRekap ? 'Pilih Mapel' : 'Pilih Mapel'}</option>`;
                 allMapel.forEach(mapel => {
                     select.innerHTML += `<option value="${mapel.id}">${mapel.nama_mapel}</option>`;
                 });
             }
+        });
+    }
+
+    function populateLpProjekFilter() {
+        const filter = document.getElementById('lp-projek-filter');
+        if (!filter) return;
+        filter.innerHTML = `<option value="">Pilih Projek</option>`;
+        allProjek.forEach(projek => {
+            filter.innerHTML += `<option value="${projek.id}">${projek.nama_projek} (${projek.mapel.nama_mapel})</option>`;
         });
     }
 
@@ -847,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const attendanceMap = new Map(attendanceData.map(a => [a.siswa_id, a.keterangan]));
 
         const filteredStudents = allStudents.filter(s => 
-            (kelas === 'semua' || s.kelas === kelas) && s.nama.toLowerCase().includes(nama)
+            (kelas === '' || s.kelas === kelas) && s.nama.toLowerCase().includes(nama)
         );
 
         if (filteredStudents.length === 0) {
@@ -907,7 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { startDate, endDate } = getPeriodeDates(periode);
 
-        const studentsInClass = allStudents.filter(s => kelas === 'semua' || s.kelas === kelas);
+        const studentsInClass = allStudents.filter(s => kelas === '' || s.kelas === kelas);
         if (studentsInClass.length === 0) {
             statsContainer.innerHTML = `<p class="col-span-full text-center">Tidak ada siswa di kelas ini.</p>`;
             if(rekapChartInstance) rekapChartInstance.destroy();
@@ -998,7 +962,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const kelas = document.getElementById('rekap-nilai-kelas-filter').value;
         const mapelId = document.getElementById('rekap-nilai-mapel-filter').value;
 
-        if (kelas === 'semua' || mapelId === 'semua') {
+        if (kelas === '' || mapelId === '') {
             container.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)]">Silakan pilih kelas dan mata pelajaran untuk melihat rekapitulasi nilai.</p>`;
             return;
         }
@@ -1033,27 +997,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="py-2 px-4 font-medium text-[var(--text-primary)]">${siswa.nama}</td>`;
             
             projectsInMapel.forEach(projek => {
-                const nilaiInd = allNilaiProjekIndividual.find(n => n.siswa_id === siswa.id && n.projek_id === projek.id);
-                
-                const kelompokSiswa = allKelompokAnggota.find(ka => ka.siswa_id === siswa.id);
-                const nilaiKel = kelompokSiswa ? allNilaiProjekKelompok.find(nk => nk.kelompok_id === kelompokSiswa.kelompok_id && nk.projek_id === projek.id) : null;
-
+                const penilaian = allPenilaianProjek.find(n => n.siswa_id === siswa.id && n.projek_id === projek.id);
                 let nilaiAkhirProjek = '-';
-                let components = [];
-                if (nilaiInd) components.push(nilaiInd.nilai_individual);
-                if (nilaiKel) components.push(nilaiKel.nilai_kelompok);
-
-                if (components.length > 0) {
-                    const total = components.reduce((a, b) => a + b, 0);
-                    nilaiAkhirProjek = Math.round(total / components.length);
-                    totalNilaiAkhir += nilaiAkhirProjek;
+                if (penilaian && penilaian.nilai_akhir !== null) {
+                    nilaiAkhirProjek = penilaian.nilai_akhir;
+                    totalNilaiAkhir += parseFloat(nilaiAkhirProjek);
                     jumlahProjekDenganNilai++;
                 }
-                
                 tableHTML += `<td class="py-2 px-4 text-center">${nilaiAkhirProjek}</td>`;
             });
 
-            const rataRataKeseluruhan = jumlahProjekDenganNilai > 0 ? Math.round(totalNilaiAkhir / jumlahProjekDenganNilai) : '-';
+            const rataRataKeseluruhan = jumlahProjekDenganNilai > 0 ? (totalNilaiAkhir / jumlahProjekDenganNilai).toFixed(2) : '-';
             tableHTML += `<td class="py-2 px-4 text-center font-bold text-[var(--text-primary)] bg-slate-100 dark:bg-slate-700">${rataRataKeseluruhan}</td>`;
             tableHTML += `</tr>`;
         });
@@ -1063,118 +1017,175 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =================================================================================
+    // LEMBAR PENILAIAN LOGIC
+    // =================================================================================
+    async function renderLembarPenilaian() {
+        const container = document.getElementById('lembar-penilaian-container');
+        const actions = document.getElementById('lembar-penilaian-actions');
+        const projekId = document.getElementById('lp-projek-filter').value;
+        const kelas = document.getElementById('lp-kelas-filter').value;
+        const kelompokId = document.getElementById('lp-kelompok-filter').value;
+
+        container.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)]">Silakan pilih Projek, Kelas, dan Kelompok untuk memulai penilaian.</p>`;
+        actions.classList.add('hidden');
+
+        if (!projekId || !kelas || !kelompokId) return;
+
+        const anggotaIds = allKelompokAnggota.filter(a => a.kelompok_id == kelompokId).map(a => a.siswa_id);
+        const anggota = allStudents.filter(s => anggotaIds.includes(s.id));
+
+        if (anggota.length === 0) {
+            container.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)]">Tidak ada anggota di kelompok ini.</p>`;
+            return;
+        }
+
+        const existingPenilaian = allPenilaianProjek.filter(p => p.projek_id == projekId && anggotaIds.includes(p.siswa_id));
+        const penilaianMap = new Map(existingPenilaian.map(p => [p.siswa_id, p]));
+
+        const tableHeader = `
+            <th class="p-3 text-left font-semibold text-[var(--text-secondary)]">Nama Siswa</th>
+            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Kreativitas</th>
+            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Kerja Sama</th>
+            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Hasil Akhir</th>
+            <th class="p-3 text-left font-semibold text-[var(--text-secondary)]">Catatan</th>
+            <th class="p-3 text-center font-semibold text-[var(--text-primary)] w-28">Nilai Akhir</th>
+        `;
+
+        const tableBody = anggota.map(siswa => {
+            const penilaian = penilaianMap.get(siswa.id) || {};
+            return `
+                <tr class="border-b border-[var(--border-color)] penilaian-row" data-siswa-id="${siswa.id}">
+                    <td class="p-3 font-medium text-[var(--text-primary)]">${siswa.nama}</td>
+                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_1 || ''}" data-kriteria="1"></td>
+                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_2 || ''}" data-kriteria="2"></td>
+                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_3 || ''}" data-kriteria="3"></td>
+                    <td><input type="text" placeholder="Catatan..." class="catatan-input w-full p-2 bg-[var(--bg-muted)] rounded-md" value="${penilaian.catatan || ''}"></td>
+                    <td class="p-3 text-center font-bold text-lg text-[var(--text-primary)]">
+                        <span class="nilai-akhir-display">${penilaian.nilai_akhir || '0'}</span>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        container.innerHTML = `
+            <table class="min-w-full text-sm">
+                <thead class="bg-[var(--bg-muted)]"><tr>${tableHeader}</tr></thead>
+                <tbody>${tableBody}</tbody>
+            </table>
+        `;
+        actions.classList.remove('hidden');
+    }
+
+    function calculateNilaiAkhir(row) {
+        const inputs = row.querySelectorAll('.kriteria-input');
+        let total = 0;
+        let count = 0;
+        inputs.forEach(input => {
+            const value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                total += value;
+                count++;
+            }
+        });
+        const average = count > 0 ? (total / count).toFixed(2) : 0;
+        row.querySelector('.nilai-akhir-display').textContent = average;
+    }
+
+    // =================================================================================
     // REKAP SISWA LOGIC
     // =================================================================================
     async function renderRekapSiswa() {
         const kelas = document.getElementById('rekap-siswa-kelas-filter').value;
+        const siswaId = document.getElementById('rekap-siswa-murid-filter').value;
         const contentContainer = document.getElementById('rekap-siswa-content-container');
         
-        if (kelas === 'semua') {
-            contentContainer.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)] col-span-full">Silakan pilih kelas untuk melihat rekapitulasi.</p>`;
+        if (kelas === '' || !siswaId) {
+            contentContainer.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)] col-span-full">Silakan pilih kelas dan siswa untuk melihat rekapitulasi.</p>`;
             return;
         }
         
         contentContainer.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)] col-span-full">Memuat data rekapitulasi...</p>`;
 
-        const studentsInClass = allStudents.filter(s => s.kelas === kelas);
-        if (studentsInClass.length === 0) {
-            contentContainer.innerHTML = `<p class="text-center p-8 text-[var(--text-secondary)] col-span-full">Tidak ada siswa di kelas ini.</p>`;
+        const siswa = allStudents.find(s => s.id == siswaId);
+        if (!siswa) {
+            contentContainer.innerHTML = `<p class="text-center p-8 text-red-500 col-span-full">Siswa tidak ditemukan.</p>`;
             return;
         }
 
         const periode = document.querySelector('#rekap-siswa-periode-filter .bg-slate-200, #rekap-siswa-periode-filter .dark\\:bg-slate-600').dataset.periode;
         const { startDate, endDate } = getPeriodeDates(periode, 'rekap-siswa');
 
+        // Fetch Kehadiran
         const { data: attendanceData, error: attendanceError } = await supabase.from('kehadiran')
-            .select('keterangan, siswa_id')
-            .in('siswa_id', studentsInClass.map(s => s.id))
+            .select('keterangan')
+            .eq('siswa_id', siswaId)
             .gte('tanggal', startDate)
             .lte('tanggal', endDate);
 
         if (attendanceError) return showToast('Gagal memuat rekap kehadiran siswa.', true);
 
-        let studentCardsHTML = '';
-        studentsInClass.forEach(siswa => {
-            // Kehadiran
-            const studentAttendance = attendanceData.filter(a => a.siswa_id === siswa.id);
-            const rekap = { Sakit: 0, Ijin: 0, Alpa: 0 };
-            studentAttendance.forEach(d => { if(rekap[d.keterangan] !== undefined) rekap[d.keterangan]++; });
-            const totalHariEfektif = Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
-            const hadir = totalHariEfektif - (rekap.Sakit + rekap.Ijin + rekap.Alpa);
+        const rekap = { Sakit: 0, Ijin: 0, Alpa: 0 };
+        attendanceData.forEach(d => { if(rekap[d.keterangan] !== undefined) rekap[d.keterangan]++; });
+        const totalHariEfektif = Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+        const hadir = totalHariEfektif - (rekap.Sakit + rekap.Ijin + rekap.Alpa);
 
-            // Nilai
-            const nilaiMap = {};
-            allMapel.forEach(mapel => {
-                const projectsInMapel = allProjek.filter(p => p.mapel_id === mapel.id);
-                if (projectsInMapel.length === 0) return;
+        // Fetch Nilai
+        const nilaiMap = {};
+        allMapel.forEach(mapel => {
+            const projectsInMapel = allProjek.filter(p => p.mapel_id === mapel.id);
+            if (projectsInMapel.length === 0) return;
 
-                projectsInMapel.forEach(projek => {
-                    const nilaiInd = allNilaiProjekIndividual.find(n => n.siswa_id == siswa.id && n.projek_id === projek.id);
-                    const kelompokSiswa = allKelompokAnggota.find(ka => ka.siswa_id == siswa.id);
-                    const nilaiKel = kelompokSiswa ? allNilaiProjekKelompok.find(nk => nk.kelompok_id === kelompokSiswa.kelompok_id && nk.projek_id === projek.id) : null;
-
-                    if (nilaiInd || nilaiKel) {
-                        if (!nilaiMap[mapel.nama_mapel]) nilaiMap[mapel.nama_mapel] = [];
-                        let components = [];
-                        if (nilaiInd) components.push(nilaiInd.nilai_individual);
-                        if (nilaiKel) components.push(nilaiKel.nilai_kelompok);
-                        const nilaiAkhir = components.length > 0 ? Math.round(components.reduce((a, b) => a + b, 0) / components.length) : '-';
-                        
-                        nilaiMap[mapel.nama_mapel].push({ nama_projek: projek.nama_projek, nilai: nilaiAkhir });
-                    }
-                });
+            projectsInMapel.forEach(projek => {
+                const penilaian = allPenilaianProjek.find(n => n.siswa_id == siswaId && n.projek_id === projek.id);
+                if (penilaian) {
+                    if (!nilaiMap[mapel.nama_mapel]) nilaiMap[mapel.nama_mapel] = [];
+                    nilaiMap[mapel.nama_mapel].push({ nama_projek: projek.nama_projek, nilai: penilaian.nilai_akhir });
+                }
             });
+        });
 
-            let nilaiHTML = Object.keys(nilaiMap).length === 0 
-                ? `<p class="text-center text-sm text-[var(--text-secondary)] py-4">Belum ada nilai.</p>`
-                : Object.keys(nilaiMap).map(mapel => `
-                    <div class="p-3 bg-[var(--bg-muted)] rounded-lg">
-                        <h4 class="font-bold text-[var(--text-primary)] text-base">${mapel}</h4>
-                        <ul class="mt-2 space-y-1 text-sm">
-                            ${nilaiMap[mapel].map(item => `
-                                <li class="flex justify-between">
-                                    <span>${item.nama_projek}</span>
-                                    <span class="font-semibold text-[var(--text-primary)]">${item.nilai}</span>
-                                </li>
-                            `).join('')}
-                        </ul>
+        let nilaiHTML = Object.keys(nilaiMap).length === 0 
+            ? `<p class="text-center text-sm text-[var(--text-secondary)] py-4">Belum ada nilai.</p>`
+            : Object.keys(nilaiMap).map(mapel => `
+                <div class="p-3 bg-[var(--bg-muted)] rounded-lg">
+                    <h4 class="font-bold text-[var(--text-primary)] text-base">${mapel}</h4>
+                    <ul class="mt-2 space-y-1 text-sm">
+                        ${nilaiMap[mapel].map(item => `
+                            <li class="flex justify-between">
+                                <span>${item.nama_projek}</span>
+                                <span class="font-semibold text-[var(--text-primary)]">${item.nilai}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `).join('<div class="my-2"></div>');
+
+        const rekapCardHTML = `
+            <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)] lg:col-span-3">
+                <h3 class="text-xl font-bold text-[var(--text-heading)]">${siswa.nama}</h3>
+                <p class="text-sm text-[var(--text-secondary)] mb-4">NIS: ${siswa.nis} | Kelas: ${siswa.kelas}</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <h4 class="font-semibold text-[var(--text-primary)] mb-2">Rekap Kehadiran</h4>
+                        <div class="h-48 flex justify-center items-center"><canvas id="rekap-chart-siswa-${siswa.id}"></canvas></div>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <div class="p-1 text-center text-xs bg-green-100 dark:bg-green-900/50 rounded-md"><p class="text-green-700 dark:text-green-300">Hadir</p><p class="font-bold text-lg text-green-800 dark:text-green-200">${hadir}</p></div>
+                            <div class="p-1 text-center text-xs bg-amber-100 dark:bg-amber-900/50 rounded-md"><p class="text-amber-700 dark:text-amber-300">Sakit</p><p class="font-bold text-lg text-amber-800 dark:text-amber-200">${rekap.Sakit}</p></div>
+                            <div class="p-1 text-center text-xs bg-blue-100 dark:bg-blue-900/50 rounded-md"><p class="text-blue-700 dark:text-blue-300">Ijin</p><p class="font-bold text-lg text-blue-800 dark:text-blue-200">${rekap.Ijin}</p></div>
+                            <div class="p-1 text-center text-xs bg-red-100 dark:bg-red-900/50 rounded-md"><p class="text-red-700 dark:text-red-300">Alpa</p><p class="font-bold text-lg text-red-800 dark:text-red-200">${rekap.Alpa}</p></div>
+                        </div>
                     </div>
-                `).join('<div class="my-2"></div>');
-
-            studentCardsHTML += `
-                <div class="bg-[var(--bg-card)] p-6 rounded-xl shadow-md border border-[var(--border-color)]">
-                    <h3 class="text-lg font-bold text-[var(--text-heading)]">${siswa.nama}</h3>
-                    <p class="text-sm text-[var(--text-secondary)] mb-4">NIS: ${siswa.nis}</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <h4 class="font-semibold text-[var(--text-primary)] mb-2">Kehadiran</h4>
-                            <div class="h-32 flex justify-center items-center"><canvas id="rekap-chart-siswa-${siswa.id}"></canvas></div>
-                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                <div class="p-1 text-center text-xs bg-green-100 dark:bg-green-900/50 rounded-md"><p class="text-green-700 dark:text-green-300">Hadir</p><p class="font-bold text-lg text-green-800 dark:text-green-200">${hadir}</p></div>
-                                <div class="p-1 text-center text-xs bg-amber-100 dark:bg-amber-900/50 rounded-md"><p class="text-amber-700 dark:text-amber-300">Sakit</p><p class="font-bold text-lg text-amber-800 dark:text-amber-200">${rekap.Sakit}</p></div>
-                                <div class="p-1 text-center text-xs bg-blue-100 dark:bg-blue-900/50 rounded-md"><p class="text-blue-700 dark:text-blue-300">Ijin</p><p class="font-bold text-lg text-blue-800 dark:text-blue-200">${rekap.Ijin}</p></div>
-                                <div class="p-1 text-center text-xs bg-red-100 dark:bg-red-900/50 rounded-md"><p class="text-red-700 dark:text-red-300">Alpa</p><p class="font-bold text-red-800 dark:text-red-200">${rekap.Alpa}</p></div>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-[var(--text-primary)] mb-2">Nilai Projek</h4>
-                            <div class="space-y-2 h-48 overflow-y-auto p-1">${nilaiHTML}</div>
-                        </div>
+                    <div class="lg:col-span-2">
+                        <h4 class="font-semibold text-[var(--text-primary)] mb-2">Rekap Nilai Projek</h4>
+                        <div class="space-y-2 h-64 overflow-y-auto p-1">${nilaiHTML}</div>
                     </div>
                 </div>
-            `;
-        });
-        contentContainer.innerHTML = studentCardsHTML;
+            </div>
+        `;
+        contentContainer.innerHTML = rekapCardHTML;
 
-        // Now initialize all charts
-        studentsInClass.forEach(siswa => {
-            const studentAttendance = attendanceData.filter(a => a.siswa_id === siswa.id);
-            const rekap = { Sakit: 0, Ijin: 0, Alpa: 0 };
-            studentAttendance.forEach(d => { if(rekap[d.keterangan] !== undefined) rekap[d.keterangan]++; });
-            const totalHariEfektif = Math.round((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
-            const hadir = totalHariEfektif - (rekap.Sakit + rekap.Ijin + rekap.Alpa);
-            updateRekapSiswaChart(`rekap-chart-siswa-${siswa.id}`, [hadir, rekap.Sakit, rekap.Ijin, rekap.Alpa]);
-        });
+        // Initialize chart for this student
+        updateRekapSiswaChart(`rekap-chart-siswa-${siswa.id}`, [hadir, rekap.Sakit, rekap.Ijin, rekap.Alpa]);
     }
 
     function updateRekapSiswaChart(canvasId, data) {
@@ -1214,11 +1225,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // SETTINGS LOGIC
     // =================================================================================
     function applySettings(settings) {
-        // ... (fungsi tidak berubah)
+        const primaryColor = settings.primary_color || '#3b82f6';
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        document.getElementById('color-picker').value = primaryColor;
+
+        if (settings.logo_url) {
+            document.getElementById('login-logo').src = settings.logo_url;
+            document.getElementById('app-logo').src = settings.logo_url;
+        }
+        if (settings.background_url) {
+            document.documentElement.style.setProperty('--background-image', `url('${settings.background_url}')`);
+        }
     }
 
     async function loadAppSettings() {
-        // ... (fungsi tidak berubah)
+        const { data, error } = await supabase.from('app_settings').select('*').eq('id', 1).single();
+        if (data) {
+            applySettings(data);
+        }
     }
 
     // =================================================================================
@@ -1309,34 +1333,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        const nilaiKelasSelect = document.getElementById('nilai-kelas-select');
-        if (nilaiKelasSelect) {
-            nilaiKelasSelect.addEventListener('change', (e) => {
-                const selectedKelas = e.target.value;
-                const siswaSelect = document.getElementById('nilai-siswa-select');
-                siswaSelect.innerHTML = '<option value="">Pilih Siswa</option>';
-                allStudents
-                    .filter(s => s.kelas === selectedKelas)
-                    .forEach(s => {
-                        siswaSelect.innerHTML += `<option value="${s.id}">${s.nama} (${s.nis})</option>`;
-                    });
-            });
-        }
-
-        const nilaiMapelSelect = document.getElementById('nilai-mapel-select');
-        if (nilaiMapelSelect) {
-            nilaiMapelSelect.addEventListener('change', (e) => {
-                const selectedMapelId = e.target.value;
-                const projekSelect = document.getElementById('nilai-projek-select');
-                projekSelect.innerHTML = '<option value="">Pilih Projek</option>';
-                allProjek
-                    .filter(p => p.mapel_id == selectedMapelId)
-                    .forEach(p => {
-                        projekSelect.innerHTML += `<option value="${p.id}">${p.nama_projek}</option>`;
-                    });
-            });
-        }
-        
         const addMapelForm = document.getElementById('add-mapel-form');
         if(addMapelForm) {
             addMapelForm.addEventListener('submit', async (e) => {
@@ -1362,77 +1358,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Projek baru ditambahkan!');
                 addProjekForm.reset();
                 await loadProjekData();
-            });
-        }
-
-        const inputNilaiIndividualForm = document.getElementById('input-nilai-individual-form');
-        if(inputNilaiIndividualForm) {
-            inputNilaiIndividualForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nilaiData = {
-                    siswa_id: document.getElementById('nilai-siswa-select').value,
-                    projek_id: document.getElementById('nilai-projek-select').value,
-                    nilai_individual: document.getElementById('nilai-individual').value,
-                };
-
-                const { error } = await supabase.from('nilai_projek_individual').upsert(nilaiData, { onConflict: 'siswa_id, projek_id' });
-                if (error) return showToast(`Gagal menyimpan nilai: ${error.message}`, true);
-                
-                showToast('Nilai individual berhasil disimpan!');
-                e.target.reset();
-                await loadNilaiProjekIndividualData();
-                renderRekapNilaiProjek();
-            });
-        }
-
-        const inputNilaiKelompokForm = document.getElementById('input-nilai-kelompok-form');
-        if(inputNilaiKelompokForm) {
-            inputNilaiKelompokForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nilaiData = {
-                    kelompok_id: document.getElementById('nilai-kelompok-select').value,
-                    projek_id: document.getElementById('nilai-kelompok-projek-select').value,
-                    nilai_kelompok: document.getElementById('nilai-kelompok').value,
-                };
-
-                const { error } = await supabase.from('nilai_projek_kelompok').upsert(nilaiData, { onConflict: 'kelompok_id, projek_id' });
-                if (error) return showToast(`Gagal menyimpan nilai: ${error.message}`, true);
-
-                showToast('Nilai kelompok berhasil disimpan!');
-                e.target.reset();
-                await loadNilaiProjekKelompokData();
-                renderRekapNilaiProjek();
+                populateLpProjekFilter();
             });
         }
         
-        const nilaiKelompokKelasSelect = document.getElementById('nilai-kelompok-kelas-select');
-        if(nilaiKelompokKelasSelect) {
-            nilaiKelompokKelasSelect.addEventListener('change', (e) => {
-                const selectedKelas = e.target.value;
-                const kelompokSelect = document.getElementById('nilai-kelompok-select');
-                kelompokSelect.innerHTML = '<option value="">Pilih Kelompok</option>';
-                allKelompok
-                    .filter(k => k.kelas === selectedKelas)
-                    .forEach(k => {
-                        kelompokSelect.innerHTML += `<option value="${k.id}">${k.nama_kelompok}</option>`;
-                    });
-            });
-        }
-
-        const nilaiKelompokMapelSelect = document.getElementById('nilai-kelompok-mapel-select');
-        if(nilaiKelompokMapelSelect) {
-            nilaiKelompokMapelSelect.addEventListener('change', (e) => {
-                const selectedMapelId = e.target.value;
-                const projekSelect = document.getElementById('nilai-kelompok-projek-select');
-                projekSelect.innerHTML = '<option value="">Pilih Projek</option>';
-                allProjek
-                    .filter(p => p.mapel_id == selectedMapelId)
-                    .forEach(p => {
-                        projekSelect.innerHTML += `<option value="${p.id}">${p.nama_projek}</option>`;
-                    });
-            });
-        }
-
         document.getElementById('rekap-nilai-kelas-filter').addEventListener('change', renderRekapNilaiProjek);
         document.getElementById('rekap-nilai-mapel-filter').addEventListener('change', renderRekapNilaiProjek);
 
@@ -1450,7 +1379,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('add-kelompok-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const kelas = document.getElementById('kelompok-kelas-filter').value;
-            if (kelas === 'semua') return showToast('Pilih kelas terlebih dahulu.', true);
+            if (kelas === '') return showToast('Pilih kelas terlebih dahulu.', true);
 
             const newKelompokName = document.getElementById('new-kelompok-name').value;
             const { error } = await supabase.from('kelompok').insert({ nama_kelompok: newKelompokName, kelas: kelas });
@@ -1518,7 +1447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Gagal menyimpan pengaturan: ' + error.message, true);
             } else {
                 showToast('Pengaturan berhasil disimpan!');
-                loadAppSettings();
+                loadAppSettings(); // PERBAIKAN: Panggil fungsi ini untuk refresh UI
             }
         });
         
@@ -1591,11 +1520,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Reset Data Nilai',
                 'Apakah Anda yakin ingin menghapus SEMUA data nilai projek? Tindakan ini tidak dapat diurungkan.',
                 async () => {
-                    await supabase.from('nilai_projek_individual').delete().neq('id', 0);
-                    await supabase.from('nilai_projek_kelompok').delete().neq('id', 0);
+                    await supabase.from('penilaian_projek').delete().neq('id', 0);
                     showToast('Semua data nilai berhasil direset.');
-                    await loadNilaiProjekIndividualData();
-                    await loadNilaiProjekKelompokData();
+                    await loadPenilaianProjekData();
                     renderRekapNilaiProjek();
                 }
             );
@@ -1620,10 +1547,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rekapSiswaKelasFilter) {
             rekapSiswaKelasFilter.addEventListener('change', (e) => {
                 const selectedKelas = e.target.value;
-                muridSelect = document.getElementById('rekap-siswa-murid-filter');
+                const muridSelect = document.getElementById('rekap-siswa-murid-filter');
                 muridSelect.innerHTML = '<option value="">Pilih Siswa</option>';
 
-                if (selectedKelas !== 'semua') {
+                if (selectedKelas !== '') {
                     allStudents
                         .filter(s => s.kelas === selectedKelas)
                         .forEach(s => {
@@ -1663,6 +1590,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('rekap-siswa-harian-picker').addEventListener('change', renderRekapSiswa);
         document.getElementById('rekap-siswa-bulanan-picker').addEventListener('change', renderRekapSiswa);
+
+        // Lembar Penilaian Listeners
+        const lpProjekFilter = document.getElementById('lp-projek-filter');
+        const lpKelasFilter = document.getElementById('lp-kelas-filter');
+        const lpKelompokFilter = document.getElementById('lp-kelompok-filter');
+
+        lpKelasFilter.addEventListener('change', (e) => {
+            const selectedKelas = e.target.value;
+            lpKelompokFilter.innerHTML = '<option value="">Pilih Kelompok</option>';
+            if (selectedKelas) {
+                allKelompok.filter(k => k.kelas === selectedKelas).forEach(k => {
+                    lpKelompokFilter.innerHTML += `<option value="${k.id}">${k.nama_kelompok}</option>`;
+                });
+            }
+            renderLembarPenilaian();
+        });
+        lpProjekFilter.addEventListener('change', renderLembarPenilaian);
+        lpKelompokFilter.addEventListener('change', renderLembarPenilaian);
+
+        document.getElementById('lembar-penilaian-container').addEventListener('input', (e) => {
+            if (e.target.matches('.kriteria-input')) {
+                const row = e.target.closest('.penilaian-row');
+                calculateNilaiAkhir(row);
+            }
+        });
+
+        document.getElementById('save-penilaian-btn').addEventListener('click', async () => {
+            const projekId = document.getElementById('lp-projek-filter').value;
+            const kelompokId = document.getElementById('lp-kelompok-filter').value;
+            const rows = document.querySelectorAll('.penilaian-row');
+            const dataToSave = [];
+
+            rows.forEach(row => {
+                const siswaId = row.dataset.siswaId;
+                const kriteria1 = row.querySelector('[data-kriteria="1"]').value;
+                const kriteria2 = row.querySelector('[data-kriteria="2"]').value;
+                const kriteria3 = row.querySelector('[data-kriteria="3"]').value;
+                const catatan = row.querySelector('.catatan-input').value;
+                const nilaiAkhir = row.querySelector('.nilai-akhir-display').textContent;
+
+                dataToSave.push({
+                    projek_id: projekId,
+                    siswa_id: siswaId,
+                    kelompok_id: kelompokId,
+                    kriteria_1: kriteria1 ? parseFloat(kriteria1) : null,
+                    kriteria_2: kriteria2 ? parseFloat(kriteria2) : null,
+                    kriteria_3: kriteria3 ? parseFloat(kriteria3) : null,
+                    catatan: catatan,
+                    nilai_akhir: nilaiAkhir ? parseFloat(nilaiAkhir) : null,
+                });
+            });
+            
+            const { error } = await supabase.from('penilaian_projek').upsert(dataToSave, { onConflict: 'projek_id, siswa_id' });
+
+            if (error) {
+                return showToast(`Gagal menyimpan penilaian: ${error.message}`, true);
+            }
+            showToast('Penilaian berhasil disimpan!');
+            await loadPenilaianProjekData();
+        });
     }
     
     async function handleExcelImport(file, tableName, rowMapper, callback) {
