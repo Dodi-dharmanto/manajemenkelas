@@ -105,6 +105,15 @@
         .summary-row.expanded .lucide-chevron-down {
             transform: rotate(180deg);
         }
+        .drag-over {
+            border-style: dashed;
+            border-color: var(--primary-color);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .dragging {
+            opacity: 0.5;
+            background: #c7d2fe;
+        }
     </style>
 </head>
 <body class="bg-[var(--bg-default)] text-[var(--text-secondary)]">
@@ -1218,7 +1227,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // MANAJEMEN KELOMPOK LOGIC
     // =================================================================================
     function renderKelompokManagementUI() {
-        // ... (fungsi tidak berubah)
+        const kelas = document.getElementById('kelompok-kelas-filter').value;
+        const searchNama = document.getElementById('kelompok-nama-filter').value.toLowerCase();
+        const unassignedContainer = document.getElementById('unassigned-students-list');
+        const rekapContainer = document.getElementById('rekap-kelompok-container');
+
+        if (!kelas) {
+            unassignedContainer.innerHTML = `<p class="text-center text-sm p-4">Pilih kelas untuk melihat siswa.</p>`;
+            rekapContainer.innerHTML = `<p class="text-center text-sm p-4">Pilih kelas untuk melihat kelompok.</p>`;
+            return;
+        }
+
+        const studentsInClass = allStudents.filter(s => s.kelas === kelas);
+        const assignedStudentIds = new Set(allKelompokAnggota.map(a => a.siswa_id));
+        
+        const unassignedStudents = studentsInClass
+            .filter(s => !assignedStudentIds.has(s.id) && s.nama.toLowerCase().includes(searchNama));
+
+        unassignedContainer.innerHTML = unassignedStudents.map(siswa => `
+            <div class="flex items-center justify-between p-2 bg-white dark:bg-slate-800 rounded-md shadow-sm cursor-grab" draggable="true" data-siswa-id="${siswa.id}">
+                <span class="text-sm font-medium text-[var(--text-primary)]">${siswa.nama}</span>
+                <i data-lucide="grip-vertical" class="w-4 h-4 text-slate-400"></i>
+            </div>
+        `).join('');
+        if (unassignedStudents.length === 0) {
+            unassignedContainer.innerHTML = `<p class="text-center text-sm p-4">Semua siswa sudah berkelompok atau tidak ada yang cocok dengan pencarian.</p>`;
+        }
+
+        const kelompokInClass = allKelompok.filter(k => k.kelas === kelas);
+        rekapContainer.innerHTML = kelompokInClass.map(kelompok => {
+            const anggotaIds = new Set(allKelompokAnggota.filter(a => a.kelompok_id === kelompok.id).map(a => a.siswa_id));
+            const anggota = studentsInClass.filter(s => anggotaIds.has(s.id));
+            
+            return `
+                <div class="kelompok-dropzone p-4 border-2 border-[var(--border-color)] rounded-lg" data-kelompok-id="${kelompok.id}">
+                    <h4 class="font-bold text-[var(--text-primary)] mb-2">${kelompok.nama_kelompok}</h4>
+                    <div class="min-h-[4rem] space-y-2">
+                        ${anggota.map(siswa => {
+                            const anggotaInfo = allKelompokAnggota.find(a => a.siswa_id === siswa.id && a.kelompok_id === kelompok.id);
+                            return `
+                                <div class="flex items-center justify-between p-2 bg-slate-100 dark:bg-slate-700 rounded-md text-sm">
+                                    <span>${siswa.nama}</span>
+                                    <button class="remove-from-kelompok-btn text-red-500 hover:text-red-700" data-anggota-id="${anggotaInfo.id}">
+                                        <i data-lucide="x" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            `
+                        }).join('')}
+                        ${anggota.length === 0 ? `<p class="text-xs text-center text-slate-400">Seret siswa ke sini</p>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        if (kelompokInClass.length === 0) {
+            rekapContainer.innerHTML = `<p class="text-center text-sm p-4">Belum ada kelompok untuk kelas ini. Silakan buat terlebih dahulu.</p>`;
+        }
+        lucide.createIcons();
     }
     
     // =================================================================================
@@ -1390,21 +1454,58 @@ document.addEventListener('DOMContentLoaded', () => {
             await loadKelompokData();
             renderKelompokManagementUI();
         });
+        
+        // Drag and Drop listeners for group management
+        const viewKelompok = document.getElementById('view-kelompok');
+        let draggedSiswaId = null;
 
-        document.getElementById('unassigned-students-list').addEventListener('change', async (e) => {
-            if (!e.target.matches('.add-to-kelompok-select')) return;
-            
-            const siswaId = e.target.dataset.siswaId;
-            const kelompokId = e.target.value;
-
-            if (!kelompokId) return;
-
-            const { error } = await supabase.from('kelompok_anggota').insert({ siswa_id: siswaId, kelompok_id: kelompokId });
-            if (error) return showToast(`Gagal menambahkan siswa: ${error.message}`, true);
-
-            await loadKelompokAnggotaData();
-            renderKelompokManagementUI();
+        viewKelompok.addEventListener('dragstart', (e) => {
+            if (e.target.dataset.siswaId) {
+                draggedSiswaId = e.target.dataset.siswaId;
+                e.target.classList.add('dragging');
+            }
         });
+
+        viewKelompok.addEventListener('dragend', (e) => {
+            if (e.target.dataset.siswaId) {
+                e.target.classList.remove('dragging');
+                draggedSiswaId = null;
+            }
+        });
+
+        viewKelompok.addEventListener('dragover', (e) => {
+            const dropzone = e.target.closest('.kelompok-dropzone');
+            if (dropzone) {
+                e.preventDefault();
+                dropzone.classList.add('drag-over');
+            }
+        });
+
+        viewKelompok.addEventListener('dragleave', (e) => {
+            const dropzone = e.target.closest('.kelompok-dropzone');
+            if (dropzone) {
+                dropzone.classList.remove('drag-over');
+            }
+        });
+
+        viewKelompok.addEventListener('drop', async (e) => {
+            const dropzone = e.target.closest('.kelompok-dropzone');
+            if (dropzone && draggedSiswaId) {
+                e.preventDefault();
+                dropzone.classList.remove('drag-over');
+                const kelompokId = dropzone.dataset.kelompokId;
+
+                const { error } = await supabase.from('kelompok_anggota').insert({ siswa_id: draggedSiswaId, kelompok_id: kelompokId });
+                if (error) {
+                    showToast(`Gagal menambahkan siswa: ${error.message}`, true);
+                } else {
+                    await loadKelompokAnggotaData();
+                    renderKelompokManagementUI();
+                }
+                draggedSiswaId = null;
+            }
+        });
+
 
         document.getElementById('rekap-kelompok-container').addEventListener('click', async (e) => {
             const removeBtn = e.target.closest('.remove-from-kelompok-btn');
