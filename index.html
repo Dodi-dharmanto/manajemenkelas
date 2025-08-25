@@ -1028,6 +1028,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // =================================================================================
     // LEMBAR PENILAIAN LOGIC
     // =================================================================================
+    const projectCriteria = {
+      'Membuat aplikasi berbasis web': {
+        mapel: 'KKA',
+        kelas: ['X C', 'X D', 'X E', 'X F', 'X G'],
+        kriteria: [
+          'Logika pembuatan aplikasi',
+          'Kesesuaian langkah-langkah',
+          'Pembuatan Prompt',
+          'Design aplikasi',
+          'Algoritma Penggunaan',
+          'Flowchart Penggunaan'
+        ]
+      },
+      'Webinar': {
+        mapel: 'Informatika',
+        kelas: ['XII D', 'XII E', 'XII K', 'XII L'],
+        kriteria: [
+          'PERSIAPAN',
+          'Kemampuan Melaksanakan Acara',
+          'Penyampaian Materi',
+          'Respon Audiens',
+          'Penggunaan Media',
+          'Kemampuan Menjawab',
+          'Ketepatan Waktu'
+        ]
+      }
+    };
+
     async function renderLembarPenilaian() {
         const container = document.getElementById('lembar-penilaian-container');
         const actions = document.getElementById('lembar-penilaian-actions');
@@ -1040,6 +1068,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!projekId || !kelas || !kelompokId) return;
 
+        const selectedProject = allProjek.find(p => p.id == projekId);
+        if (!selectedProject) return;
+        
+        const projectName = selectedProject.nama_projek;
+        const criteriaConfig = projectCriteria[projectName] || { kriteria: ['Kreativitas', 'Kerja Sama', 'Hasil Akhir'] };
+        const kriteriaList = criteriaConfig.kriteria;
+
         const anggotaIds = allKelompokAnggota.filter(a => a.kelompok_id == kelompokId).map(a => a.siswa_id);
         const anggota = allStudents.filter(s => anggotaIds.includes(s.id));
 
@@ -1048,26 +1083,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const existingPenilaian = allPenilaianProjek.filter(p => p.projek_id == projekId && anggotaIds.includes(p.siswa_id));
+        const { data: existingPenilaian, error } = await supabase.from('penilaian_projek').select('*').eq('projek_id', projekId).in('siswa_id', anggotaIds);
+        if(error) return showToast('Gagal memuat data penilaian yang ada.', true);
+        
         const penilaianMap = new Map(existingPenilaian.map(p => [p.siswa_id, p]));
 
         const tableHeader = `
             <th class="p-3 text-left font-semibold text-[var(--text-secondary)]">Nama Siswa</th>
-            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Kreativitas</th>
-            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Kerja Sama</th>
-            <th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">Hasil Akhir</th>
+            ${kriteriaList.map(k => `<th class="p-3 text-center font-semibold text-[var(--text-secondary)] w-28">${k}</th>`).join('')}
             <th class="p-3 text-left font-semibold text-[var(--text-secondary)]">Catatan</th>
             <th class="p-3 text-center font-semibold text-[var(--text-primary)] w-28">Nilai Akhir</th>
         `;
 
         const tableBody = anggota.map(siswa => {
             const penilaian = penilaianMap.get(siswa.id) || {};
+            const kriteriaInputs = kriteriaList.map((k, index) => 
+                `<td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian[`kriteria_${index + 1}`] || ''}" data-kriteria-index="${index + 1}"></td>`
+            ).join('');
+
             return `
                 <tr class="border-b border-[var(--border-color)] penilaian-row" data-siswa-id="${siswa.id}">
                     <td class="p-3 font-medium text-[var(--text-primary)]">${siswa.nama}</td>
-                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_1 || ''}" data-kriteria="1"></td>
-                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_2 || ''}" data-kriteria="2"></td>
-                    <td><input type="number" min="0" max="100" class="kriteria-input w-full p-2 bg-[var(--bg-muted)] rounded-md text-center" value="${penilaian.kriteria_3 || ''}" data-kriteria="3"></td>
+                    ${kriteriaInputs}
                     <td><input type="text" placeholder="Catatan..." class="catatan-input w-full p-2 bg-[var(--bg-muted)] rounded-md" value="${penilaian.catatan || ''}"></td>
                     <td class="p-3 text-center font-bold text-lg text-[var(--text-primary)]">
                         <span class="nilai-akhir-display">${penilaian.nilai_akhir || '0'}</span>
@@ -1091,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let count = 0;
         inputs.forEach(input => {
             const value = parseFloat(input.value);
-            if (!isNaN(value)) {
+            if (!isNaN(value) && value >= 0 && value <= 100) {
                 total += value;
                 count++;
             }
@@ -1725,19 +1762,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             rows.forEach(row => {
                 const siswaId = row.dataset.siswaId;
-                const kriteria1 = row.querySelector('[data-kriteria="1"]').value;
-                const kriteria2 = row.querySelector('[data-kriteria="2"]').value;
-                const kriteria3 = row.querySelector('[data-kriteria="3"]').value;
                 const catatan = row.querySelector('.catatan-input').value;
                 const nilaiAkhir = row.querySelector('.nilai-akhir-display').textContent;
+                
+                const kriteriaValues = {};
+                row.querySelectorAll('.kriteria-input').forEach(input => {
+                    const index = input.dataset.kriteriaIndex;
+                    kriteriaValues[`kriteria_${index}`] = input.value ? parseFloat(input.value) : null;
+                });
 
                 dataToSave.push({
                     projek_id: projekId,
                     siswa_id: siswaId,
                     kelompok_id: kelompokId,
-                    kriteria_1: kriteria1 ? parseFloat(kriteria1) : null,
-                    kriteria_2: kriteria2 ? parseFloat(kriteria2) : null,
-                    kriteria_3: kriteria3 ? parseFloat(kriteria3) : null,
+                    ...kriteriaValues,
                     catatan: catatan,
                     nilai_akhir: nilaiAkhir ? parseFloat(nilaiAkhir) : null,
                 });
